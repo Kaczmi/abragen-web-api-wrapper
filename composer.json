@@ -1,0 +1,16 @@
+{
+    "name": "kaczmi/abragen-web-api-wrapper",
+    "description": "Intuitive fluent interface for AbraGEN WebAPI",
+    "type": "library",
+    "require": {
+    	"php": ">= 7.0",
+        "nette/tester": ">= 1.7.2",
+        "nette/robot-loader": "^3.1"
+    },
+    "authors": [
+        {
+            "name": "Lukáš Křehula",
+            "email": "lukas@krehula.net"
+        }
+    ]
+}

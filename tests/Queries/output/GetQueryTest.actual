@@ -1,0 +1,26 @@
+[
+	'class' => 'issuedinvoices',
+	'select' => [
+		['name' => 'invoice_name', 'value' => 'DisplayName'],
+		[
+			'name' => 'rows',
+			'value' => [
+				'field' => 'rows',
+				'query' => [
+					'select' => [
+						'storecard_id',
+						[
+							'name' => 'skladova_karta',
+							'value' => [
+								'field' => 'storecard_id',
+								'query' => ['select' => ['name', 'code', 'x_column']],
+							],
+						],
+					],
+					'orderby' => [['value' => 'amount', 'desc' => true]],
+				],
+			],
+		],
+	],
+	'where' => 'id in (\'1000000101\')',
+]

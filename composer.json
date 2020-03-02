@@ -12,7 +12,7 @@
             "email": "lukas@krehula.net"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require-dev": {
         "nette/tester": ">= 1.7.2",
         "nette/robot-loader": "^3.1"

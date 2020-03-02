@@ -3,7 +3,8 @@
     "description": "Intuitive fluent interface for AbraGEN WebAPI",
     "type": "library",
     "require": {
-    	"php": ">= 7.0",        
+    	"php": ">= 7.0",
+        "nette/di": "^2.4" 
     },
     "authors": [
         {

@@ -16,5 +16,10 @@
     "require-dev": {
         "nette/tester": ">= 1.7.2",
         "nette/robot-loader": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "AbraApi\\": "src/"
+        }
     }
 }

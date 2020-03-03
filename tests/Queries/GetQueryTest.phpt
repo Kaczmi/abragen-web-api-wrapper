@@ -141,3 +141,62 @@ Assert::equal([
 	],
 ], json_decode($body, true));
 
+$body = $abraApi->get()
+	  ->class("issuedinvoices")
+	  ->select("displayname")
+	  ->expand("issuedInvoiceRows", "rows")
+		->select([ "productName" => "storecard_id.name" ])
+		->end()
+	  ->whereId("1010000010")
+	  ->getQuery();
+
+Assert::equal([
+	"class" => "issuedinvoices",
+	"select" => [
+		"displayname",
+		[
+			"name" => "issuedInvoiceRows",
+			"value" => [
+				"field" => "rows",
+				"query" => [
+					"select" => [
+						[
+							"name" => "productName",
+							"value" => "storecard_id.name"
+						]
+					]
+				]
+			]
+		]
+	],
+	"where" => "id in ('1010000010')"
+], json_decode($body, true));
+
+$body = $abraApi->get()
+		->class("issuedinvoices")
+		->select("id")
+		->expand("exampleName", "x_vazby") // "x_vazby" should be ignored, because we use subquery into other table
+			->class("relations")
+			->select("id")
+			->where("vazba_id = :id")
+			->limit(10)
+			->end()
+		->getQuery();
+
+Assert::equal([
+	"class" => "issuedinvoices",
+	"select" => [
+		"id",
+		[
+			"name" => "exampleName",
+			"value" => [
+				"class" => "relations",
+				"select" => [
+					"id"
+				],
+				"where" => "vazba_id = :id",
+				"take" => 10
+			]
+		]
+	],
+], json_decode($body, true));

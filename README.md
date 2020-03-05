@@ -7,4 +7,6 @@ Install wrapper using composer:
 
 PHP 7.0 or higher is required.
 
-Documentation with examples can be found here: https://lukas.krehula.net/abra-api/documentation/
+Wrapper documentation with examples can be found here: https://lukas.krehula.net/abra-api/documentation/
+
+How to configure WebAPI and other examples can be found in official documentation by Abra: https://help.abra.eu/cs/20.0/G4/Content/Part53_API/AbraAPI.htm

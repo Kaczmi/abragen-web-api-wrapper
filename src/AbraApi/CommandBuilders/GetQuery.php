@@ -29,6 +29,14 @@
 		}
 
 		/**
+		 * Fulltext search
+		 */
+		public function fulltext(string $fulltext): GetQuery {
+			$this->queryServant->fulltext($fulltext);
+			return $this;
+		}
+
+		/**
 		 * What columns must query return
 		 */
 		public function select(...$selects): GetQuery {

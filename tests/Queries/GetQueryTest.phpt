@@ -200,3 +200,50 @@ Assert::equal([
 		]
 	],
 ], json_decode($body, true));
+
+$body = $abraApi->get()
+		->class("issuedinvoices")
+		->fulltext("FVT-1/2020")
+		->select("id")
+		->getQuery();
+
+Assert::equal([
+	"class" => "issuedinvoices",
+	"fulltext" => "FVT-1/2020",
+	"select" => [
+		"id"
+	],
+], json_decode($body, true));
+
+$body = $abraApi->get()
+		->class("issuedinvoices")
+		->fulltext("FVT-1/2020")
+		->select("id")
+		->expand("rows")
+			->select([ "storecardName" => "storecard_id.name" ])
+			->fulltext("test")
+			->end()
+		->getQuery();
+
+Assert::equal([
+	"class" => "issuedinvoices",
+	"fulltext" => "FVT-1/2020",
+	"select" => [
+		"id",
+		[
+			"name" => "rows",
+			"value" => [
+				"field" => "rows",
+				"query" => [
+					"fulltext" => "test",
+					"select" => [
+						[
+							"name" => "storecardName",
+							"value" => "storecard_id.name"
+						]
+					]
+				]
+			]
+		]
+	],
+], json_decode($body, true));

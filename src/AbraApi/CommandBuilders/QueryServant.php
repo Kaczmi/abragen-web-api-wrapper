@@ -22,6 +22,7 @@
 
 		private $queryProperOrder = [
 			Commands\ClassCommand::class,
+			Commands\FulltextCommand::class,
 			Commands\ExprCommand::class,
 			Commands\SelectCommand::class,
 			Commands\ExpandCommand::class,
@@ -183,6 +184,14 @@
 		 */
 		public function data(...$data) {
 			$this->addQuery(new Commands\DataCommand(...$data));
+			return $this;
+		}
+
+		/**
+		 * Specifies fulltext search
+		 */
+		public function fulltext(string $fulltext) {
+			$this->addQuery(new Commands\FulltextCommand($fulltext));
 			return $this;
 		}
 

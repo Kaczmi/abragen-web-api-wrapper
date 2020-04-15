@@ -19,8 +19,8 @@ Assert::same([ "name" => "test", "name2" => "test2", "row" => [[ "id" => "100000
 
 Assert::exception(function() {
 	new DataCommand("name", "test", "badParameter");
-}, \Exception::class, "Data command parameter - array was expected, 'name' given");
+}, \Exception::class, "Processing data - array was expected, 'name' given");
 
 Assert::exception(function() {
 	new DataCommand(new DataCommand("name", "test"));
-}, \Exception::class, "Data command parameter - array was expected, instance of AbraApi\Commands\DataCommand given");
+}, \Exception::class, "Processing data - array was expected, instance of AbraApi\Commands\DataCommand given");

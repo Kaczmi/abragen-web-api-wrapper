@@ -34,7 +34,8 @@
 			Commands\LimitCommand::class,
 			Commands\SkipCommand::class,
 			Commands\InputDocumentsCommand::class,
-			Commands\ParamsCommand::class
+			Commands\ParamsCommand::class,
+			Commands\OutputDocumentCommand::class
 		];
 
 		/**
@@ -211,6 +212,14 @@
 		 */
 		public function inputDocuments(array $documents) {
 			$this->addQuery(new Commands\InputDocumentsCommand($documents));
+			return $this;
+		}
+
+		/**
+		 * Specifies output document data to update, for import query
+		 */
+		public function outputDocumentData(...$data) {
+			$this->addQuery(new Commands\OutputDocumentCommand(...$data));
 			return $this;
 		}
 

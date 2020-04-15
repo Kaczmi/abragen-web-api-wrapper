@@ -58,6 +58,14 @@
 		}
 
 		/**
+		 * Specifies data to be set when new imported document is saved
+		 */
+		public function outputDocumentData(...$data): ImportQuery {
+			$this->queryServant->outputDocumentData(...$data);
+			return $this;
+		}
+
+		/**
 		 * Specify import parameters (docqueue_id, ...)
 		 */
 		public function params(...$data): ImportQuery {
@@ -92,7 +100,8 @@
 		 */
 		public function getQuery(): string {
 			$mergedDataCommands = QueryHelpers::mergeCommands($this->queryServant, [ Commands\ParamsCommand::class,
-																					 Commands\InputDocumentsCommand::class ]);
+																					 Commands\InputDocumentsCommand::class,
+																					 Commands\OutputDocumentCommand::class ]);
 			if(count($mergedDataCommands) === 0) 
 				throw new \Exception("You need to specify data() - which columns are supposed to be edited in update query");
 			return json_encode($mergedDataCommands);

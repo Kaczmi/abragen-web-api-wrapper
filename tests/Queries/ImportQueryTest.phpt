@@ -34,7 +34,8 @@ $import = $abraApi->import()
 				  ->into("billsofdelivery")
 				  ->inputDocuments([ "1000000001", "2000000001"])
 				  ->params([ "docqueue_id" => "1000000001",
-							 "otherParam" => "otherValue" ]);
+							 "otherParam" => "otherValue" ])
+				  ->outputDocumentData("StoreDocQueue_ID", "1000000001");
 
 Assert::same('billsofdelivery/import/receivedorders?select=id', $import->getApiEndpoint());
 
@@ -50,6 +51,9 @@ Assert::equal([
 	"params" => [
 		"docqueue_id" => "1000000001",
 		"otherParam" => "otherValue"
+	],
+	"output_document_update" => [
+		"StoreDocQueue_ID" => "1000000001"
 	]
 ], json_decode($import->getQuery(), true));
 

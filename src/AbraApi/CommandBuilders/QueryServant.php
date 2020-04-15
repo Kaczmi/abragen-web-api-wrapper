@@ -5,6 +5,7 @@
 	use AbraApi\Executors\Interfaces\IExecutor,
 		AbraApi\Commands,
 		AbraApi\Commands\Interfaces\ICommandQueryBuilder,
+		AbraApi\Commands\Interfaces\IMultipleCommand,
 		AbraApi\Commands\DataCommand,
 		AbraApi\Commands\ExpandCommand;
 
@@ -31,14 +32,15 @@
 			Commands\OrderByCommand::class,
 			Commands\GroupByCommand::class,
 			Commands\LimitCommand::class,
-			Commands\SkipCommand::class
+			Commands\SkipCommand::class,
+			Commands\ParamsCommand::class
 		];
 
 		/**
 		 * Adds a query
 		 */
 		protected function addQuery(ICommandQueryBuilder $newQuery) {
-			if($this->query !== null && !($newQuery instanceof DataCommand) && !($newQuery instanceof ExpandCommand)) {
+			if($this->query !== null && !($newQuery instanceof IMultipleCommand)) {
 				foreach($this->query as $query) {
 					if($query instanceof $newQuery) throw new \Exception("Cannot add two same queries of ".get_class($query));
 				}
@@ -192,6 +194,22 @@
 		 */
 		public function fulltext(string $fulltext) {
 			$this->addQuery(new Commands\FulltextCommand($fulltext));
+			return $this;
+		}
+
+		/**
+		 * Specifies params (import query)
+		 */
+		public function params(...$params) {
+			$this->addQuery(new Commands\ParamsCommand(...$params));
+			return $this;
+		}
+
+		/**
+		 * Specifies input documnets for import query
+		 */
+		public function inputDocuments(array $documents) {
+			$this->addQuery(new Commands\InputDocumentsCommand($documents));
 			return $this;
 		}
 

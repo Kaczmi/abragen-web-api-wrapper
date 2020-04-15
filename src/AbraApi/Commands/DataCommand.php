@@ -4,7 +4,7 @@
 
 	use AbraApi\Commands\Helpers\DataQueryHelper;
 
-	class DataCommand implements Interfaces\ICommandQueryBuilder {
+	class DataCommand implements Interfaces\ICommandQueryBuilder, Interfaces\IMultipleCommand {
 
 		private $data = [];
 

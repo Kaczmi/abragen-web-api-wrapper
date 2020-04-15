@@ -7,7 +7,7 @@
 		AbraApi\CommandBuilders\QueryServant,
 		AbraApi\Commands\ClassCommand;
 
-	class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery {
+	class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, Interfaces\IMultipleCommand {
 		/** @var IExpandQuery */
 		private $parentQuery;
 		/** @var string */

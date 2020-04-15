@@ -5,7 +5,7 @@
 	use AbraApi\Results;
 
 	class ImportQueryResultGetter implements Interfaces\IResultGetter {
-
+		/** @var Interfaces\ICaller */
 		private $caller;
 
 		public function __construct(Interfaces\ICaller $caller) {

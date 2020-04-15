@@ -1,4 +1,6 @@
 [
-	'input_documents' => ['1000000001', '2000000001'],
-	'params' => ['docqueue_id' => '1000000001', 'otherParam' => 'otherValue'],
+	'input_documents' => '1',
+	'params' => ['otherParam' => 'otherValue', 'docqueue_id' => '1000000001'],
+	'input_document_clsid' => 'receivedorders',
+	'output_document_clsid' => 'billsofdelivery',
 ]

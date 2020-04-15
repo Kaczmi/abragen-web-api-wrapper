@@ -18,6 +18,8 @@
 		private $fromBussinessObject;
 		/** @var string|null */
 		private $intoBussinessObject;
+		/** @var string|null */
+		private $intoDocumentId;
 
 		public function __construct(Callers\Interfaces\IResultGetter $resultGetter) {
 			$this->resultGetter = $resultGetter;
@@ -36,24 +38,29 @@
 		/**
 		 * Specifies from what bussiness object are we importing
 		 */
-		public function from(string $fromBussinessObject): ImportQuery {
+		public function from(string $fromBussinessObject, array $documentIds): ImportQuery {
 			$this->fromBussinessObject = $fromBussinessObject;
+			$this->inputDocuments($documentIds);
 			return $this;
 		}
 
 		/**
 		 * Specifies documents ID´s to be imported into target BO
 		 */
-		public function inputDocuments(array $documents): ImportQuery {
+		private function inputDocuments(array $documents): ImportQuery {
 			$this->queryServant->inputDocuments($documents);
 			return $this;
 		}
 
 		/**
 		 * Specifies into what bussiness object are importing
+		 * In second parameter, you can specify ID of row to be imported into
 		 */
-		public function into(string $intoBussinessObject): ImportQuery {
+		public function into(string $intoBussinessObject, string $intoDocumentId = null): ImportQuery {
 			$this->intoBussinessObject = $intoBussinessObject;
+			if($intoDocumentId !== null && strlen($intoDocumentId) !== 10)
+				throw new \Exception("ID of document was expected, '".$intoDocumentId."' given (required in length of 10 characters)");
+			$this->intoDocumentId = $intoDocumentId;
 			return $this;
 		}
 
@@ -78,8 +85,7 @@
 		 * If you don´t specify ->select(..), it returns only ID
 		 */
 		public function execute(): IUpdateResult {
-			if($this->fromBussinessObject === null || $this->intoBussinessObject === null)
-				throw new \Exception("You must specify ->from(string $bussinessObject) and ->into(string $bussinessObject) to execute import query.");
+			
 			return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery());
 		}
 
@@ -87,24 +93,26 @@
 		 * Creates endpoint for query
 		 */
 		public function getApiEndpoint() {
-			if(!preg_match('/^(.*?)\/(\d{10})$/m', $this->fromBussinessObject) && !$this->queryServant->hasCommand(Commands\InputDocumentsCommand::class)) {
-				throw new \Exception("You must specify document you are importing from via ->from('bo/id') or ->inputDocuments(array $ids)");
-			}
-			return ($this->intoBussinessObject)
-					."/import/".($this->fromBussinessObject)
-					."?".(QueryHelpers::createSelectUri($this->queryServant));
+			return "import?".(QueryHelpers::createSelectUri($this->queryServant));
 		}
 
 		/**
 		 * Merges all data commands and return it as JSON object
 		 */
 		public function getQuery(): string {
-			$mergedDataCommands = QueryHelpers::mergeCommands($this->queryServant, [ Commands\ParamsCommand::class,
-																					 Commands\InputDocumentsCommand::class,
-																					 Commands\OutputDocumentCommand::class ]);
-			if(count($mergedDataCommands) === 0) 
-				throw new \Exception("You need to specify data() - which columns are supposed to be edited in update query");
-			return json_encode($mergedDataCommands);
+			if($this->fromBussinessObject === null || $this->intoBussinessObject === null)
+				throw new \Exception('You must specify ->from(string $bussinessObject, array $documentIds) and ->into(string $bussinessObject, ?string $documentId) to execute import query.');
+			$query = [
+				"input_document_clsid" => $this->fromBussinessObject,
+				"output_document_clsid" => $this->intoBussinessObject
+			];
+			if($this->intoDocumentId !== null)
+				$query["output_document"] = $this->intoDocumentId;
+			$mergedCommands = QueryHelpers::mergeCommands($this->queryServant, [ Commands\ParamsCommand::class,
+																				 Commands\InputDocumentsCommand::class,
+																				 Commands\OutputDocumentCommand::class ]);
+			
+			return json_encode(array_merge($mergedCommands, $query));
 		}
 
 	}

@@ -1,26 +1,23 @@
 [
 	'class' => 'issuedinvoices',
+	'fulltext' => 'FVT-1/2020',
 	'select' => [
-		['name' => 'invoice_name', 'value' => 'DisplayName'],
+		'id',
 		[
 			'name' => 'rows',
 			'value' => [
 				'field' => 'rows',
 				'query' => [
-					'select' => [
-						'storecard_id',
-						[
-							'name' => 'skladova_karta',
-							'value' => [
-								'field' => 'storecard_id',
-								'query' => ['select' => ['name', 'code', 'x_column']],
-							],
-						],
-					],
-					'orderby' => [['value' => 'amount', 'desc' => 1]],
+					'select' => [['name' => 'storecardName', 'value' => 'storecard_id.name']],
 				],
 			],
 		],
+		[
+			'name' => 'firm_id',
+			'value' => [
+				'field' => 'firm_id',
+				'query' => ['select' => [['name' => 'firm_name', 'value' => 'name']]],
+			],
+		],
 	],
-	'where' => 'id in (\'1000000101\')',
 ]

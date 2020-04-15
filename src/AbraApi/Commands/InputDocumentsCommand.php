@@ -22,7 +22,7 @@
 		}
 
 		public function getCommand(): array {
-			return [ self::DOCUMENTS_SELECTOR => $this->data ];
+			return [ self::DOCUMENTS_SELECTOR => $this->inputDocuments ];
 		}
 
 	}

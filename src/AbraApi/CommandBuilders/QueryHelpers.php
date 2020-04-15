@@ -3,6 +3,7 @@
 	namespace AbraApi\CommandBuilders;
 
 	use AbraApi\Commands;
+	use AbraApi\Commands\Interfaces\ICommandQueryBuilder;
 
 	class QueryHelpers {
 
@@ -32,18 +33,27 @@
 		}
 
 		/**
-		 * Merges all data commands into one array object, valid for AbraGen API
-		 * @return array
+		 * Merges only data commands
 		 */
 		public static function mergeDataCommands(QueryServant $queryServant): array {
+			return static::mergeCommands($queryServant, [ Commands\DataCommand::class ]);
+		}
+
+		/**
+		 * Merges all commands specified in $commandsToMerge (expected array of classes instanceof ICommandQueryBuilder)
+		 * If you don´t use second parameters, in default it only merges ->data(..) commands
+		 * @return array
+		 */
+		public static function mergeCommands(QueryServant $queryServant, array $commandsToMerge): array {
 			$query = $queryServant->getQuery();
-			$dataCommands = [];
-			array_map(function($command) use(&$dataCommands) { 
-				if($command instanceof Commands\DataCommand) 
-					$dataCommands = array_merge($command->getCommand(), $dataCommands); 
-				return $command; 
-			}, $query);
-			return $dataCommands;
+			$mergedCommand = [];
+			foreach($commandsToMerge as $commandToMerge) {
+				foreach($query as $command) {
+					if($command instanceof $commandToMerge) 
+						$mergedCommand = array_merge_recursive($command->getCommand(), $mergedCommand); 
+				}
+			}
+			return $mergedCommand;
 		}
 		
 	}

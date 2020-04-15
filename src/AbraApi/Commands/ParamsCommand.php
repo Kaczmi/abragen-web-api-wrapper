@@ -15,7 +15,7 @@
 		}
 
 		public function getCommand(): array {
-			return [ self::PARAMS_SELECTOR => $this->data ];
+			return [ self::PARAMS_SELECTOR => $this->params ];
 		}
 
 	}

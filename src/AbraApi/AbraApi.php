@@ -83,6 +83,13 @@
 		}
 
 		/**
+		 * Return new ImportQuery command builder
+		 */
+		public function import(): CommandBuilders\ImportQuery {
+			return (new CommandBuilders\ImportQuery(new Callers\ImportQueryResultGetter(new Callers\PostCaller($this))));
+		}
+
+		/**
 		 * Vrátí URL adresu, na kterou se má Caller dotázat
 		 */
 		public function getUri(): string {

@@ -33,6 +33,7 @@
 			Commands\GroupByCommand::class,
 			Commands\LimitCommand::class,
 			Commands\SkipCommand::class,
+			Commands\InputDocumentsCommand::class,
 			Commands\ParamsCommand::class
 		];
 

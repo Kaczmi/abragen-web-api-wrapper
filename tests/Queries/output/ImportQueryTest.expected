@@ -1,6 +1,1 @@
-[
-	'input_document_clsid' => 'receivedorders',
-	'output_document_clsid' => 'billsofdelivery',
-	'input_documents' => '1000000001',
-	'params' => ['docqueue_id' => '1000000001', 'otherParam' => 'otherValue'],
-]
+You must specify both left and right importing manager bussiness objects either by ClsID or by API Bussiness object name.

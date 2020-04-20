@@ -86,7 +86,7 @@
 		 * Return new ImportQuery command builder
 		 */
 		public function import(): CommandBuilders\ImportQuery {
-			return (new CommandBuilders\ImportQuery(new Callers\ImportQueryResultGetter(new Callers\PostCaller($this))));
+			return (new CommandBuilders\ImportQuery(new Callers\ImportQueryResultGetter($this)));
 		}
 
 		/**

@@ -6,7 +6,7 @@
 
 	use AbraApi\Executors\Interfaces\IExecutor,
 		AbraApi\Callers,
-		AbraApi\Results\Interfaces\IUpdateResult,
+		AbraApi\Results\Interfaces\IImportResult,
 		AbraApi\Commands;
 
 	class ImportQuery extends Query {
@@ -84,28 +84,41 @@
 		 * Executes query and returns result of imported document
 		 * If you don´t specify ->select(..), it returns only ID
 		 */
-		public function execute(): IUpdateResult {
-			
+		public function execute(): IImportResult {
+			if($this->fromBussinessObject === null || $this->intoBussinessObject === null)
+				throw new \Exception('You must specify ->from(string $bussinessObject, array $documentIds) and ->into(string $bussinessObject, ?string $documentId) to execute import query.');
+			if(($this->isClsid($this->fromBussinessObject) ^ $this->isClsid($this->intoBussinessObject)))
+				throw new \Exception("You must specify both left and right importing manager bussiness objects either by ClsID or by API Bussiness object name.");
+			$resultGetter = $this->resultGetter;
+			if($this->intoDocumentId !== null && !$this->isClsid($this->fromBussinessObject)) {
+				$resultGetter->setPutMethod();
+			}
 			return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery());
 		}
 
 		/**
 		 * Creates endpoint for query
 		 */
-		public function getApiEndpoint() {
-			return "import?".(QueryHelpers::createSelectUri($this->queryServant));
+		public function getApiEndpoint(): string {
+			if($this->isClsid($this->fromBussinessObject)) // both BO´s are defined with CLSID
+				return "import?".(QueryHelpers::createSelectUri($this->queryServant));
+			return ($this->intoBussinessObject).
+				   "/import/".
+				   ($this->fromBussinessObject).
+				   ("?".(QueryHelpers::createSelectUri($this->queryServant)));
 		}
 
 		/**
 		 * Merges all data commands and return it as JSON object
 		 */
 		public function getQuery(): string {
-			if($this->fromBussinessObject === null || $this->intoBussinessObject === null)
-				throw new \Exception('You must specify ->from(string $bussinessObject, array $documentIds) and ->into(string $bussinessObject, ?string $documentId) to execute import query.');
-			$query = [
-				"input_document_clsid" => $this->fromBussinessObject,
-				"output_document_clsid" => $this->intoBussinessObject
-			];
+			$query = [];
+			if($this->isClsid($this->fromBussinessObject) && $this->isClsid($this->intoBussinessObject)) {
+				$query = [
+					"input_document_clsid" => $this->fromBussinessObject,
+					"output_document_clsid" => $this->intoBussinessObject
+				];
+			}
 			if($this->intoDocumentId !== null)
 				$query["output_document"] = $this->intoDocumentId;
 			$mergedCommands = QueryHelpers::mergeCommands($this->queryServant, [ Commands\ParamsCommand::class,
@@ -113,6 +126,13 @@
 																				 Commands\OutputDocumentCommand::class ]);
 			
 			return json_encode(array_merge($mergedCommands, $query));
+		}
+
+		/**
+		 * Returns, if string in parameter is CLSID
+		 */
+		private function isClsid(string $clsid) {
+			return (preg_match('/^[0-9A-Z]{26}$/', $clsid));
 		}
 
 	}

@@ -1,9 +1,11 @@
 <?php
 
-	namespace AbraApi\Results\Interfaces;
+namespace AbraApi\Results\Interfaces;
 
-	/**
-	 * this is general class for deleting data in abra
-	 */
-	interface IDeleteResult {		
-	}
+/**
+ * this is general class for deleting data in abra
+ */
+interface IDeleteResult extends IResult
+{
+
+}

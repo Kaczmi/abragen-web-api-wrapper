@@ -7,7 +7,11 @@
 		AbraApi\CommandBuilders\QueryServant;
 
 	final class JsonExecutor implements Interfaces\IExecutor {
-
+		
+		/**
+		 * @return array<mixed>
+		 * @throws \Exception
+		 */
 		public function execute(QueryServant $queryServant): array {
 			$jsonQuery = [];
 			$query = $queryServant->getQuery();

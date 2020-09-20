@@ -3,7 +3,10 @@
 	namespace AbraApi\Commands\Interfaces;
 
 	interface ICommandQueryBuilder {
-
-		public function getCommand();
+		
+		/**
+		 * @return array<mixed>
+		 */
+		public function getCommand(): array;
 		
 	}

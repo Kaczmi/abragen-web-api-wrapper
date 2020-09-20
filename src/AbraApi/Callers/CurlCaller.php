@@ -4,7 +4,7 @@
 
 	abstract class CurlCaller {
 
-		protected $abraApi;
+		protected \AbraApi\AbraApi $abraApi;
 
 		const QUERY_POST = "POST";
 		const QUERY_PUT = "PUT";
@@ -14,8 +14,15 @@
 			"\\u200b" => "",
 			"\\u201" => '&quot;'
 		];
-
-		protected function callCurl($queryType, $url, $body, $optHeaders = array()) {
+		
+		
+		/**
+		 * @param array<mixed>  $optHeaders
+		 *
+		 * @return array<string, mixed>
+		 * @throws \Exception
+		 */
+		protected function callCurl(string $queryType, string $url, string $body, array $optHeaders = []): array {
 			$curl = curl_init();
 			$url = $this->abraApi->getUri().$url;
 			$this->normalizeQuery($body);
@@ -72,11 +79,12 @@
 				"httpcode" => $httpcode
 			];
 		}
-
+		
+		
 		/**
 		 * There are some forbidden characters we cannot use in JSON body
 		 */
-		private function normalizeQuery(&$body) {
+		private function normalizeQuery(string &$body): void {
 			foreach(self::FORBIDDEN_CHARACTERS as $character => $replace) {
 				if(strlen($replace) === 0) $replace = "";
 				$body = str_replace($character, $replace, $body);

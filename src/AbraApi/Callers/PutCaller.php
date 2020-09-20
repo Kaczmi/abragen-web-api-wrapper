@@ -8,7 +8,7 @@
 			$this->abraApi = $abraApi;
 		}
 
-		public function call($url, $body, $optHeaders = array()) {
+		public function call(string $url, string $body, array $optHeaders = []): array {
 			return $this->callCurl(self::QUERY_PUT, $url, $body, $optHeaders);
 		}
 	}

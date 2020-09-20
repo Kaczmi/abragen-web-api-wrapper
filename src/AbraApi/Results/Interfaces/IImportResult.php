@@ -1,10 +1,13 @@
 <?php
 
-	namespace AbraApi\Results\Interfaces;
+namespace AbraApi\Results\Interfaces;
 
-	interface IImportResult {
-
-		public function getId(): string;
-		public function getResult();
-		
-	}
+interface IImportResult extends IResult
+{
+	
+	public function getId(): string;
+	
+	
+	public function getResult();
+	
+}

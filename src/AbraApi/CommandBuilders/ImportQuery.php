@@ -10,7 +10,7 @@
 		AbraApi\Commands;
 
 	class ImportQuery extends Query {
-		/** @var Callers\Interfaces\IResultGetter */
+		/** @var \AbraApi\Callers\ImportQueryResultGetter */
 		private $resultGetter;
 		/** @var QueryServant */
 		private $queryServant;
@@ -21,7 +21,7 @@
 		/** @var string|null */
 		private $intoDocumentId;
 
-		public function __construct(Callers\Interfaces\IResultGetter $resultGetter) {
+		public function __construct(Callers\ImportQueryResultGetter $resultGetter) {
 			$this->resultGetter = $resultGetter;
 			$this->queryServant = new QueryServant;
 		}
@@ -91,7 +91,7 @@
 				throw new \Exception("You must specify both left and right importing manager bussiness objects either by ClsID or by API Bussiness object name.");
 			$resultGetter = $this->resultGetter;
 			if($this->intoDocumentId !== null && !$this->isClsid($this->fromBussinessObject)) {
-				$resultGetter->setPutMethod();
+				$resultGetter->usePutMethod();
 			}
 			return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery());
 		}

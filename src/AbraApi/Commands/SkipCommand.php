@@ -15,7 +15,7 @@
 			$this->skip = intval($skip);
 		}
 
-		public function getCommand() {
+		public function getCommand(): array {
 			$classCommand = [];
 			$classCommand[self::CLASS_SELECTOR] = $this->skip;
 			return $classCommand;

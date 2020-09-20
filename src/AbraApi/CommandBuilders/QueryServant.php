@@ -65,7 +65,7 @@
 				}
 			}
 			if(count($actualQuery) > 0) {
-				array_merge($properOrderedQuery, $actualQuery);
+				$properOrderedQuery = array_merge($properOrderedQuery, $actualQuery);
 			}
 			return $properOrderedQuery;
 		}

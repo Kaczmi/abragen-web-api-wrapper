@@ -12,7 +12,7 @@
 			$this->caller = $caller;
 		}
 
-		public function getResult($url, $body, $optHeaders = array()) {
+		public function getResult($url, $body, $optHeaders = array()): Results\Interfaces\IResult {
 			$resultPlainData = $this->caller->call($url, $body, $optHeaders);
 			return (new Results\AbraApiInsertResult($resultPlainData["content"], $resultPlainData["headers"], $resultPlainData["httpcode"]));
 		}

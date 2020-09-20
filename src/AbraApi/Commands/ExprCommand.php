@@ -6,7 +6,7 @@
 
 	class ExprCommand extends WhereCommand implements Interfaces\ICommandQueryBuilder {
 
-		public function getExpression() {
+		public function getExpression(): string {
 			return "expr";
 		}
 

@@ -8,20 +8,17 @@
 
 		const CLASS_SELECTOR = "where";
 
-		private $className;
+		private string $condition;
 
-		private $condition;
-
-		public function __construct($query, ...$params) {
+		public function __construct(string $query, ...$params) {
 			$this->processCondition($query, $params);
 		}
 
-		public function processCondition($query, $params) {
+		public function processCondition(string $query, array $params) {
 			// at first, remove double quotes and replace them to simple quotes
 			$query = str_replace('"', "'", $query);
 			$this->condition = $query;
 			$paramsPosition = 0;
-			$pos = -1;
 			$placeholdersCount = 0;
 			$parametersCount = count($params);
 			while(($pos = strpos($this->condition, "?")) !== false) {
@@ -49,9 +46,10 @@
 		}
 
 		/**
+         * @var mixed $value
 		 * Returns escaped string of value for use in condition with (optional) quotes
 		 */
-		private function proccessConditionValue($value) {
+		private function proccessConditionValue($value): string {
 			// logic value, returned without quotes
 			if(is_bool($value)) {
 				if($value === true) return "true";
@@ -68,7 +66,7 @@
 		/**
 		 * Returns an escaped condition string
 		 */
-		private function escapeConditionString($value) {
+		private function escapeConditionString(string $value): string {
 			return $value;
 		}
 
@@ -77,20 +75,20 @@
 		 * in where command, question mark is used as parameter bind
 		 * return updated string with $newString
 		 */
-		private function replaceString($targetStr, $position, $newString) {
+		private function replaceString(string $targetStr, int $position, string $newString): string {
 			$rtnString = substr($targetStr, 0, $position);
 			$rtnString .= $newString;
 			$rtnString .= substr($targetStr, $position + 1, (strlen($targetStr) - $position));
 			return $rtnString;
 		}
 
-		public function getCommand() {
-			$classCommand = [];
-			$classCommand[$this->getExpression()] = $this->condition;
-			return $classCommand;
+		public function getCommand(): array {
+			return [
+			    $this->getExpression() => $this->condition
+            ];
 		}
 
-		public function getExpression() {
+		public function getExpression(): string {
 			return self::CLASS_SELECTOR;
 		}
 

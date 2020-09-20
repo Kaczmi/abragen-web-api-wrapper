@@ -1,9 +1,10 @@
 <?php
 
-	namespace AbraApi\Results\Interfaces;
+namespace AbraApi\Results\Interfaces;
 
-	interface IQrFunctionResult {
-
-		public function getResult();
-
-	}
+interface IQrFunctionResult extends IResult
+{
+	
+	public function getResult();
+	
+}

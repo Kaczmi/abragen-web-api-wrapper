@@ -1,21 +1,33 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results;
+namespace AbraApi\Results;
 
-	class AbraApiDocumentResult extends AbstractAbraApiResult implements Interfaces\IDocumentResult {
-
-		public function __construct($result, $headers, $httpCode) {
-			$this->parseResult($result);
-			$this->parseHeaders($headers);			
-			$this->setHttpCode($httpCode);
-		}
-
-		private function parseResult($result) {
-			$this->content = $result;
-		}
-
-		public function getContent() {
-			return $this->content;
-		}
-
+final class AbraApiDocumentResult extends AbstractAbraApiResult implements Interfaces\IDocumentResult
+{
+	
+	/**
+	 * @param array<mixed>  $headers
+	 *
+	 * @throws \AbraApi\Results\BadRequestException
+	 * @throws \AbraApi\Results\NoResponseException
+	 */
+	public function __construct(string $result, array $headers, int $httpCode)
+	{
+		$this->parseResult($result);
+		$this->parseHeaders($headers);
+		$this->setHttpCode($httpCode);
 	}
+	
+	
+	private function parseResult(string $result): void
+	{
+		$this->content->document = $result;
+	}
+	
+	
+	public function getContent(): string
+	{
+		return $this->content->document;
+	}
+	
+}

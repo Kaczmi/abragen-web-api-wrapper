@@ -1,25 +1,39 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results;
+namespace AbraApi\Results;
 
-	class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfaces\IUpdateResult {
-
-		public function __construct($result, $headers, $httpCode) {
-			$this->parseResult($result);
-			$this->parseHeaders($headers);			
-			$this->setHttpCode($httpCode);
-		}
-
-		private function parseResult($result) {
-			$this->content = json_decode($result);
-		}
-
-		public function getUpdatedId() {
-			return $this->content->id;
-		}
-
-		public function getResult() {
-			return $this->content;
-		}
-
+final class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfaces\IUpdateResult
+{
+	
+	/**
+	 * @param array<mixed> $headers
+	 *
+	 * @throws \AbraApi\Results\BadRequestException
+	 * @throws \AbraApi\Results\NoResponseException
+	 */
+	public function __construct(string $result, array $headers, int $httpCode)
+	{
+		$this->parseResult($result);
+		$this->parseHeaders($headers);
+		$this->setHttpCode($httpCode);
 	}
+	
+	
+	private function parseResult(string $result): void
+	{
+		$this->content = json_decode($result);
+	}
+	
+	
+	public function getUpdatedId(): int
+	{
+		return $this->content->id;
+	}
+	
+	
+	public function getResult(): \stdClass
+	{
+		return $this->content;
+	}
+	
+}

@@ -7,8 +7,15 @@
 		public function __construct(\AbraApi\AbraApi $abraApi) {
 			$this->abraApi = $abraApi;
 		}
-
-		public function call($url, $body, $optHeaders = array()) {
+		
+		
+		/**
+		 * @param array<mixed>  $optHeaders
+		 *
+		 * @return array<string, mixed>
+		 * @throws \Exception
+		 */
+		public function call(string $url, string $body, array $optHeaders = []): array {
 			return $this->callCurl(self::QUERY_DELETE, $url, "", $optHeaders);
 		}
 		

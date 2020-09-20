@@ -27,7 +27,7 @@
 			$this->usePutMethod = true;
 		}
 
-		public function getResult($url, $body, $optHeaders = array()) {
+		public function getResult($url, $body, $optHeaders = array()): Results\Interfaces\IResult {
 			$caller = $this->getCaller();
 			$resultPlainData = $caller->call($url, $body, $optHeaders);
 			return (new Results\AbraApiImportResult($resultPlainData["content"], $resultPlainData["headers"], $resultPlainData["httpcode"]));

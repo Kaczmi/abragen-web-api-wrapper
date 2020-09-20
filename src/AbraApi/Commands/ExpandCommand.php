@@ -108,7 +108,10 @@
 			return $this->parentQuery;
 		}
 
-		public function getCommand() {
+        /**
+         * @return array<mixed>
+         */
+		public function getCommand(): array {
 			$expandCommand = [];
 			$expandCommand["name"] = $this->name;
 			$query = $this->execute();

@@ -15,7 +15,7 @@
 			$this->limit = intval($limit);
 		}
 
-		public function getCommand() {
+		public function getCommand(): array {
 			$classCommand = [];
 			$classCommand[self::CLASS_SELECTOR] = $this->limit;
 			return $classCommand;

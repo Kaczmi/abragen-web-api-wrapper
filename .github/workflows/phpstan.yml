@@ -1,10 +1,10 @@
-name: Tests
+name: PHPStan
 
 on: [push]
 
 jobs:
-  tests:
-    name: Workflow
+  phpstan:
+    name: PHPStan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,8 +16,5 @@ jobs:
       - name: Composer
         run: composer install --no-progress --prefer-dist
       - name: PHPStan
-        run: ./vendor/bin/phpstan analyse --level 6 src
-        shell: bash
-      - name: Nette Tester
-        run: ./vendor/bin/tester -s -C ./tests
+        run: ./vendor/bin/phpstan analyse --level 7 src
         shell: bash

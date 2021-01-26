@@ -11,10 +11,10 @@
 
 	class GetQuery extends Query implements Interfaces\IExpandQuery {
 
-		private $resultGetter;
-		private $queryServant;
+		private Callers\GetQueryResultGetter $resultGetter;
+		private QueryServant $queryServant;
 
-		public function __construct(IExecutor $executor, Callers\Interfaces\IResultGetter $resultGetter) {
+		public function __construct(IExecutor $executor, Callers\GetQueryResultGetter $resultGetter) {
 			$this->setExecutor($executor);
 			$this->resultGetter = $resultGetter;
 			$this->queryServant = new QueryServant;
@@ -23,7 +23,7 @@
 		/**
 		 * Defines, what BO are we quering into
 		 */
-		public function class($class): GetQuery {
+		public function class(string $class): GetQuery {
 			$this->queryServant->class($class);
 			return $this;
 		}
@@ -38,6 +38,7 @@
 
 		/**
 		 * What columns must query return
+		 * @param string|array<string>|array<string, string>|array<int, string> ...$selects
 		 */
 		public function select(...$selects): GetQuery {
 			$this->queryServant->select(...$selects);
@@ -46,14 +47,16 @@
 
 		/**
 		 * Condition
+		 * @param string|int|float|bool|array<mixed> ...$parameters
 		 */
-		public function where($query, ...$parameters): GetQuery {
+		public function where(string $query, ...$parameters): GetQuery {
 			$this->queryServant->where($query, ...$parameters);
 			return $this;
 		}
 
 		/**
 		 * Condition, specific for ID
+		 * @param array<string>|string $ids
 		 */
 		public function whereId($ids): GetQuery {
 			$this->queryServant->whereId($ids);
@@ -63,14 +66,14 @@
 		/**
 		 * Creates subselect
 		 */
-		public function expand($name, $value = null): ExpandCommand {
+		public function expand(string $name, ?string $value = null): ExpandCommand {
 			return $this->queryServant->expand($name, $value, $this->executor, $this);
 		}
 
 		/**
 		 * Limit of rows to be selected
 		 */
-		public function limit($limit): GetQuery {
+		public function limit(int $limit): GetQuery {
 			$this->queryServant->limit($limit);
 			return $this;
 		}
@@ -78,21 +81,23 @@
 		/**
 		 * Amount of skipped rows
 		 */
-		public function skip($skip): GetQuery {
+		public function skip(int $skip): GetQuery {
 			$this->queryServant->skip($skip);
 			return $this;
 		}
 
 		/**
 		 * Creates subselect
+		 * @param mixed ...$orderBy
 		 */
 		public function orderBy(...$orderBy): GetQuery {
-			$this->queryServant->orderBy(...$orderBy);
+			$this->queryServant->orderBy($orderBy);
 			return $this;
 		}
 
 		/**
 		 * Creates groupby aggregation
+		 * @param mixed ...$groupBy
 		 */
 		public function groupBy(...$groupBy): GetQuery {
 			$this->queryServant->groupBy(...$groupBy);
@@ -111,25 +116,33 @@
 		 */
 		public function getQuery(): string {
 			$queryBody = $this->executor->execute($this->queryServant);
-			return json_encode($queryBody);
+
+			$query = \json_encode($queryBody);
+			if($query === FALSE) {
+				throw new \Exception("Could not create query");
+			}
+
+			return $query;
 		}
 
 		/**
 		 * Fetches first row returned by Abra
 		 */
-		public function fetch() {
+		public function fetch(): ?\stdClass {
 			return $this->execute()->fetch();
 		}
 
 		/**
 		 * Fetches specific field in first row returned by Abra
+		 * @return mixed
 		 */
-		public function fetchField($field) {
+		public function fetchField(string $field) {
 			return $this->execute()->fetchField($field);
 		}
 
 		/**
 		 * Fetches all rows returned by Abra as JSON object
+		 * @return array<\stdClass>
 		 */
 		public function fetchAll(): array {
 			return $this->execute()->fetchAll();
@@ -140,8 +153,9 @@
 		 * E.g. you want to get all ID´s of invoices for specific firm, and you want it in 1-dimensional array
 		 * Result could be this for example: [ { id: 1 }, { id: 2 }, { id: 3} ]
 		 * You use $command->select....->fetchFlat("id") and you get [1, 2, 3]
+		 * @return array<mixed>
 		 */
-		public function fetchFlat($field): array {
+		public function fetchFlat(string $field): array {
 			return $this->execute()->fetchFlat($field);
 		} 
 

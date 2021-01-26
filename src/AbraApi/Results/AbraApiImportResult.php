@@ -19,7 +19,7 @@ final class AbraApiImportResult extends AbstractAbraApiResult implements Interfa
 	}
 	
 	
-	private function parseResult(string $result): \stdClass
+	private function parseResult(string $result): void
 	{
 		$this->content = json_decode($result);
 	}

@@ -24,10 +24,7 @@ final class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Int
 		$this->content = json_decode($result);
 	}
 	
-	
-	/**
-	 * @return mixed
-	 */
+
 	public function getResult()
 	{
 		return $this->content->result;

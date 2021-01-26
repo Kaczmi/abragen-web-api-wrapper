@@ -12,6 +12,8 @@
 		 * Or you can specify multiple colums with values in array, where key is column name and value is new value
 		 * Array value can also be an array
 		 * ->data(["name" => "xxx", "rows" => [ "storecard_id" => "1234567890" ]], [ "firm_id" => "xxxxxxx" ], ...)
+		 * @param array<mixed> $dataToProcess
+		 * @return array<mixed>
 		 */
 		public static function processDataCommand(array $dataToProcess): array {	
 			if(count($dataToProcess) === 2) {

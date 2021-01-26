@@ -22,7 +22,7 @@ final class GetDocumentResultGetter implements Interfaces\IResultGetter
 	 * @throws \AbraApi\Results\BadRequestException
 	 * @throws \AbraApi\Results\NoResponseException
 	 */
-	public function getResult(string $url, string $body, array $optHeaders = []): Results\Interfaces\IResult
+	public function getResult(string $url, string $body, array $optHeaders = []): Results\Interfaces\IDocumentResult
 	{
 		$resultPlainData = $this->caller->call($url, $body, $optHeaders);
 		

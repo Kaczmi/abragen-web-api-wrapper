@@ -6,15 +6,17 @@
 
 	class LimitCommand implements Interfaces\ICommandQueryBuilder {
 
-		const CLASS_SELECTOR = "take";
+		public const CLASS_SELECTOR = "take";
 
-		private $limit;
+		private int $limit;
 
-		public function __construct($limit) {
-			if(!is_integer($limit)) throw new \Exception("Limit must be an integer value.");
-			$this->limit = intval($limit);
+		public function __construct(int $limit) {
+			$this->limit = $limit;
 		}
 
+		/**
+		 * @return array<string, int>
+		 */
 		public function getCommand(): array {
 			$classCommand = [];
 			$classCommand[self::CLASS_SELECTOR] = $this->limit;

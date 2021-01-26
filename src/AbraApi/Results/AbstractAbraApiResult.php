@@ -9,8 +9,11 @@ abstract class AbstractAbraApiResult
 	protected array $abraResultHeaders;
 	
 	protected int $httpCode;
-	
-	protected \stdClass $content;
+
+	/**
+	 * @var null|\stdClass|array<\stdClass>
+	 */
+	protected $content = NULL;
 	
 	
 	/**
@@ -65,8 +68,10 @@ abstract class AbstractAbraApiResult
 	{
 		return $this->httpCode;
 	}
-	
-	
+
+	/**
+	 * @return array<mixed>
+	 */
 	public function getHeaders(): array
 	{
 		return $this->abraResultHeaders;

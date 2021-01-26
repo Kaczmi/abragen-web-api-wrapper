@@ -6,15 +6,22 @@
 
 	class WhereCommand implements Interfaces\ICommandQueryBuilder {
 
-		const CLASS_SELECTOR = "where";
+		public const CLASS_SELECTOR = "where";
 
 		private string $condition;
 
+		/**
+		 * @param string $query
+		 * @param mixed ...$params
+		 */
 		public function __construct(string $query, ...$params) {
 			$this->processCondition($query, $params);
 		}
 
-		public function processCondition(string $query, array $params) {
+		/**
+		 * @param array<mixed> $params
+		 */
+		public function processCondition(string $query, array $params): void {
 			// at first, remove double quotes and replace them to simple quotes
 			$query = str_replace('"', "'", $query);
 			$this->condition = $query;
@@ -35,7 +42,7 @@
 					$this->condition = $this->replaceString($this->condition, $pos, implode(", ", $arrayParamValues));
 				}
 				else {
-					$this->condition = $this->replaceString($this->condition, $pos, $this->proccessConditionValue($paramValue));
+					$this->condition = $this->replaceString($this->condition, $pos, (string) $this->proccessConditionValue($paramValue));
 				}
 				$paramsPosition++;
 				$placeholdersCount++;
@@ -46,10 +53,11 @@
 		}
 
 		/**
-         * @var mixed $value
+         * @param mixed $value
 		 * Returns escaped string of value for use in condition with (optional) quotes
+		 * @return string|int|float
 		 */
-		private function proccessConditionValue($value): string {
+		private function proccessConditionValue($value) {
 			// logic value, returned without quotes
 			if(is_bool($value)) {
 				if($value === true) return "true";
@@ -82,6 +90,9 @@
 			return $rtnString;
 		}
 
+		/**
+		 * @return array<string, string>
+		 */
 		public function getCommand(): array {
 			return [
 			    $this->getExpression() => $this->condition

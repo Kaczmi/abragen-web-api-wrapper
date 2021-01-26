@@ -25,7 +25,7 @@ final class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfa
 	}
 	
 	
-	public function getUpdatedId(): int
+	public function getUpdatedId(): string
 	{
 		return $this->content->id;
 	}

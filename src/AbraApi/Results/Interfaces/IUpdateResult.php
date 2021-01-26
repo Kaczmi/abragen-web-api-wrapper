@@ -8,9 +8,9 @@ namespace AbraApi\Results\Interfaces;
 interface IUpdateResult extends IResult
 {
 	
-	public function getUpdatedId();
+	public function getUpdatedId(): string;
 	
 	
-	public function getResult();
+	public function getResult(): \stdClass;
 	
 }

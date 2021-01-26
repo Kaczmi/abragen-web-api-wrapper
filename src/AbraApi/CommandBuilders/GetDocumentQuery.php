@@ -11,13 +11,13 @@
 
 	class GetDocumentQuery extends Query {
 
-		private $resultGetter;
-		private $queryServant;
-		private $b2b = false;
-		private $reportId = null;
-		private $exportId = null;
+		private Callers\GetDocumentResultGetter $resultGetter;
+		private QueryServant $queryServant;
+		private bool $b2b = false;
+		private ?string $reportId = null;
+		private ?string $exportId = null;
 
-		public function __construct(IExecutor $executor, Callers\Interfaces\IResultGetter $resultGetter) {
+		public function __construct(IExecutor $executor, Callers\GetDocumentResultGetter $resultGetter) {
 			$this->setExecutor($executor);
 			$this->resultGetter = $resultGetter;
 			$this->queryServant = new QueryServant;
@@ -26,13 +26,14 @@
 		/**
 		 * Defines, what BO are we quering into
 		 */
-		public function class($class): GetDocumentQuery {
+		public function class(string $class): GetDocumentQuery {
 			$this->queryServant->class($class);
 			return $this;
 		}
 
 		/**
 		 * Condition
+		 * @param array<string>|string $ids
 		 */
 		public function whereId($ids): GetDocumentQuery {
 			$this->queryServant->whereId($ids);
@@ -42,15 +43,15 @@
 		/**
 		 * Defines report ID
 		 */
-		public function report($id): GetDocumentQuery {
+		public function report(string $id): GetDocumentQuery {
 			$this->reportId = $id;
 			return $this;
 		}
 
 		/**
-		 * Defines report ID
+		 * Defines export ID
 		 */
-		public function export($id): GetDocumentQuery {
+		public function export(string $id): GetDocumentQuery {
 			$this->exportId = $id;
 			return $this;
 		}
@@ -68,7 +69,7 @@
 		 * @param  string $acceptHeader defines, what kind of document should Abra return
 		 * @return  IDocumentResult return document result with specified function -> getContent
 		 */
-		public function execute($acceptHeader = "Accept: application/pdf"): IDocumentResult {
+		public function execute(string $acceptHeader = "Accept: application/pdf"): IDocumentResult {
 			// it is must have
 			if(!($this->queryServant->hasCommand(Commands\ClassCommand::class) && $this->queryServant->hasCommand(Commands\WhereCommand::class) && ($this->reportId !== null || $this->exportId !== null)))
 				throw new \Exception("To get an export or report, you need to specify class(), whereId() and report() or export()");
@@ -101,7 +102,13 @@
 			if(!$this->queryServant->hasCommand(Commands\SelectCommand::class))
 				$this->queryServant->select("id");
 			// creates JSON request
-			return json_encode($this->executor->execute($this->queryServant));
+			$query = json_encode($this->executor->execute($this->queryServant));
+
+			if($query === FALSE) {
+				throw new \Exception("Could not create query");
+			}
+
+			return $query;
 		}
 
 		/**

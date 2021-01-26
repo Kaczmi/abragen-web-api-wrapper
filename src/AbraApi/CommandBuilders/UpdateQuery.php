@@ -11,11 +11,11 @@
 
 	class UpdateQuery extends Query {
 
-		private $resultGetter;
-		private $queryServant;
-		private $updateRowId;
+		private Callers\UpdateQueryResultGetter $resultGetter;
+		private QueryServant $queryServant;
+		private ?string $updateRowId = NULL;
 
-		public function __construct(Callers\Interfaces\IResultGetter $resultGetter) {
+		public function __construct(Callers\UpdateQueryResultGetter $resultGetter) {
 			$this->resultGetter = $resultGetter;
 			$this->queryServant = new QueryServant;
 		}
@@ -23,7 +23,7 @@
 		/**
 		 * Defines, what BO are we quering into
 		 */
-		public function class($class): UpdateQuery {
+		public function class(string $class): UpdateQuery {
 			$this->queryServant->class($class);
 			return $this;
 		}
@@ -31,6 +31,7 @@
 		/**
 		 * What columns should result return
 		 * If this function is not specified whilst updating data, system automatically selects only ID of updated row
+		 * @param string|array<string>|array<string, string>|array<int, string> ...$selects
 		 */
 		public function select(...$selects): UpdateQuery {
 			$this->queryServant->select(...$selects);
@@ -39,6 +40,7 @@
 
 		/**
 		 * What columns are supposed to be updated
+		 * @param mixed ...$data
 		 */
 		public function data(...$data): UpdateQuery {
 			$this->queryServant->data(...$data);
@@ -64,7 +66,7 @@
 		/**
 		 * Creates endpoint for query
 		 */
-		public function getApiEndpoint() {
+		public function getApiEndpoint(): string {
 			if(!$this->queryServant->hasCommand(Commands\ClassCommand::class)) 
 				throw new \Exception("Update query must specify bussiness object to be edited (class)");
 			if($this->updateRowId === null) 
@@ -81,7 +83,12 @@
 			$mergedDataCommands = QueryHelpers::mergeDataCommands($this->queryServant);
 			if(count($mergedDataCommands) === 0) 
 				throw new \Exception("You need to specify data() - which columns are supposed to be edited in update query");
-			return json_encode($mergedDataCommands);
+
+			$query = \json_encode($mergedDataCommands);
+			if($query === FALSE)
+				throw new \Exception("Could not create query");
+
+			return $query;
 		}
 
 	}

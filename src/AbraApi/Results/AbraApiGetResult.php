@@ -28,13 +28,12 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
 	{
 		$this->content = $this->abraResultRows = json_decode($result);
 	}
-	
-	
+
+
 	/**
 	 * Returns one specific column from result
-	 * @return mixed
 	 */
-	public function fetchField($field)
+	public function fetchField(string $field)
 	{
 		$row = $this->fetch();
 		if (isset($row->$field)) return $row->$field;
@@ -58,19 +57,17 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
 	
 	/**
 	 * Get´s full response returned by API
-	 * @return array<\stdClass>
 	 */
 	public function fetchAll(): array
 	{
 		return $this->abraResultRows;
 	}
-	
-	
+
+
 	/**
 	 * Returns flat array of specific field
-	 * @return array<mixed>
 	 */
-	public function fetchFlat($field): array
+	public function fetchFlat(string $field): array
 	{
 		$rtnArray = [];
 		foreach ($this->abraResultRows as $row) {

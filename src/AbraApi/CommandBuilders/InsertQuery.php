@@ -11,10 +11,10 @@
 
 	class InsertQuery extends Query {
 
-		private $resultGetter;
-		private $queryServant;
+		private Callers\InsertQueryResultGetter $resultGetter;
+		private QueryServant $queryServant;
 
-		public function __construct(Callers\Interfaces\IResultGetter $resultGetter) {
+		public function __construct(Callers\InsertQueryResultGetter $resultGetter) {
 			$this->resultGetter = $resultGetter;
 			$this->queryServant = new QueryServant;
 		}
@@ -22,7 +22,7 @@
 		/**
 		 * Defines, what BO are we quering into
 		 */
-		public function class($class): InsertQuery {
+		public function class(string $class): InsertQuery {
 			$this->queryServant->class($class);
 			return $this;
 		}
@@ -30,6 +30,7 @@
 		/**
 		 * What columns should result return
 		 * If this function is not specified whilst updating data, system automatically selects only ID of updated row
+		 * @param string|array<string>|array<string, string>|array<int, string> ...$selects
 		 */
 		public function select(...$selects): InsertQuery {
 			$this->queryServant->select(...$selects);
@@ -38,6 +39,7 @@
 
 		/**
 		 * What columns are supposed to be updated
+		 * @param mixed ...$data
 		 */
 		public function data(...$data): InsertQuery {
 			$this->queryServant->data(...$data);
@@ -68,7 +70,13 @@
 			$mergedDataCommands = QueryHelpers::mergeDataCommands($this->queryServant);
 			if(count($mergedDataCommands) === 0) 
 				throw new \Exception("You need to specify data() to create new Abra record.");
-			return json_encode($mergedDataCommands);
+
+			$query = \json_encode($mergedDataCommands);
+			if($query === FALSE) {
+				throw new \Exception("Could not create query");
+			}
+
+			return $query;
 		}
 
 	}

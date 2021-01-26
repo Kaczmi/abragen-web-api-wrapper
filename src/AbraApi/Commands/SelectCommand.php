@@ -8,15 +8,23 @@
 
 		const CLASS_SELECTOR = "select";
 
-		private $className;
+		/**
+		 * @var array<mixed>
+		 */
+		private array $selects;
 
-		private $selects;
-
-		public function __construct($selects) {
+		/**
+		 * SelectCommand constructor.
+		 * @param array<mixed> $selects
+		 */
+		public function __construct(array $selects) {
 			$this->processSelects($selects);
 		}
 
-		public function processSelects($selects) {
+		/**
+		 * @param array<mixed> $selects
+		 */
+		public function processSelects(array $selects): void {
 			foreach($selects as $select) {
 				if(is_array($select)) {
 					foreach($select as $name => $value) {
@@ -36,6 +44,9 @@
 			}
 		}
 
+		/**
+		 * @return array<string, array<mixed>>
+		 */
 		public function getCommand(): array {
 			$classCommand = [];
 			$classCommand[self::CLASS_SELECTOR] = $this->selects;

@@ -6,15 +6,24 @@
 
 	class OrderByCommand implements Interfaces\ICommandQueryBuilder {
 
-		const CLASS_SELECTOR = "orderby";
+		public const CLASS_SELECTOR = "orderby";
 
-		private $orderBy;
+		/**
+		 * @var array<array<string, bool|string>>
+		 */
+		private array $orderBy;
 
+		/**
+		 * @param mixed ...$orderBy
+		 */
 		public function __construct(...$orderBy) {
 			$this->processOrderBy($orderBy);
 		}
 
-		public function processOrderBy($orderBy) {
+		/**
+		 * @param array<mixed> $orderBy
+		 */
+		public function processOrderBy($orderBy): void {
 			foreach($orderBy as $order) {
 				if(is_array($order)) {
 					foreach($order as $column => $desc) {
@@ -35,7 +44,11 @@
 			}
 		}
 
-		private function addGroupByQuery($column, $desc = false) {
+		/**
+		 * @param mixed $column
+		 * @param mixed $desc
+		 */
+		private function addGroupByQuery($column, $desc = false): void {
 			if(!is_bool($desc)) throw new \Exception("Parameter descending of OrderByCommand must be bool value");
 			if(!is_string($column)) {
 				if(is_object($column))
@@ -48,6 +61,9 @@
 			$this->orderBy[] = $orderByQuery;
 		}
 
+		/**
+		 * @return array<string, array<array<string, bool|string>>>
+		 */
 		public function getCommand(): array {
 			$classCommand = [];
 			$classCommand[self::CLASS_SELECTOR] = $this->orderBy;

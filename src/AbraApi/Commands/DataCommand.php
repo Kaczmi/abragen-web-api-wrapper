@@ -6,12 +6,21 @@
 
 	class DataCommand implements Interfaces\ICommandQueryBuilder, Interfaces\IMultipleCommand {
 
-		private $data = [];
+		/**
+		 * @var array<mixed>
+		 */
+		private array $data = [];
 
+		/**
+		 * @param mixed ...$data
+		 */
 		public function __construct(...$data) {
 			$this->data = DataQueryHelper::processDataCommand($data);
 		}
 
+		/**
+		 * @return array<mixed>
+		 */
 		public function getCommand(): array {
 			return $this->data;
 		}

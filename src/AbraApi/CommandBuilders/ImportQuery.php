@@ -10,16 +10,11 @@
 		AbraApi\Commands;
 
 	class ImportQuery extends Query {
-		/** @var \AbraApi\Callers\ImportQueryResultGetter */
-		private $resultGetter;
-		/** @var QueryServant */
-		private $queryServant;
-		/** @var string|null */
-		private $fromBussinessObject;
-		/** @var string|null */
-		private $intoBussinessObject;
-		/** @var string|null */
-		private $intoDocumentId;
+		private Callers\ImportQueryResultGetter $resultGetter;
+		private QueryServant $queryServant;
+		private ?string $fromBussinessObject = NULL;
+		private ?string $intoBussinessObject = NULL;
+		private ?string $intoDocumentId = NULL;
 
 		public function __construct(Callers\ImportQueryResultGetter $resultGetter) {
 			$this->resultGetter = $resultGetter;
@@ -29,6 +24,7 @@
 		/**
 		 * What columns should result return
 		 * If this function is not specified whilst updating data, system automatically selects only ID of updated row
+		 * @param string|array<string>|array<string, string>|array<int, string> ...$selects
 		 */
 		public function select(...$selects): ImportQuery {
 			$this->queryServant->select(...$selects);
@@ -37,6 +33,7 @@
 
 		/**
 		 * Specifies from what bussiness object are we importing
+		 * @param array<string> $documentIds
 		 */
 		public function from(string $fromBussinessObject, array $documentIds): ImportQuery {
 			$this->fromBussinessObject = $fromBussinessObject;
@@ -46,6 +43,7 @@
 
 		/**
 		 * Specifies documents ID´s to be imported into target BO
+		 * @param array<string> $documents
 		 */
 		private function inputDocuments(array $documents): ImportQuery {
 			$this->queryServant->inputDocuments($documents);
@@ -66,6 +64,7 @@
 
 		/**
 		 * Specifies data to be set when new imported document is saved
+		 * @param array<string, string>|string ...$data
 		 */
 		public function outputDocumentData(...$data): ImportQuery {
 			$this->queryServant->outputDocumentData(...$data);
@@ -74,6 +73,7 @@
 
 		/**
 		 * Specify import parameters (docqueue_id, ...)
+		 * @param array<string, string>|string ...$data
 		 */
 		public function params(...$data): ImportQuery {
 			$this->queryServant->params(...$data);
@@ -124,15 +124,20 @@
 			$mergedCommands = QueryHelpers::mergeCommands($this->queryServant, [ Commands\ParamsCommand::class,
 																				 Commands\InputDocumentsCommand::class,
 																				 Commands\OutputDocumentCommand::class ]);
-			
-			return json_encode(array_merge($mergedCommands, $query));
+
+			$query = \json_encode(\array_merge($mergedCommands, $query));
+			if($query === FALSE) {
+				throw new \Exception("Could not create query");
+			}
+
+			return $query;
 		}
 
 		/**
 		 * Returns, if string in parameter is CLSID
 		 */
-		private function isClsid(string $clsid) {
-			return (preg_match('/^[0-9A-Z]{26}$/', $clsid));
+		private function isClsid(string $clsid): bool {
+			return (bool) (preg_match('/^[0-9A-Z]{26}$/', $clsid));
 		}
 
 	}

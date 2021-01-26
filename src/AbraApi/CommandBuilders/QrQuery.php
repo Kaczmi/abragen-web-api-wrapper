@@ -9,16 +9,19 @@
 
 	class QrQuery extends Query {
 
-		private $resultGetter;
-		private $queryServant;
+		private Callers\QrFunctionsResultGetter $resultGetter;
+		private QueryServant $queryServant;
 
-		public function __construct(IExecutor $executor, Callers\Interfaces\IResultGetter $resultGetter) {
+		public function __construct(IExecutor $executor, Callers\QrFunctionsResultGetter $resultGetter) {
 			$this->setExecutor($executor);
 			$this->resultGetter = $resultGetter;
 			$this->queryServant = new QueryServant;
 		}
 
-		public function expr($expression, ...$parameters): QrQuery {
+		/**
+		 * @param mixed ...$parameters
+		 */
+		public function expr(string $expression, ...$parameters): QrQuery {
 			$this->queryServant->expr($expression, ...$parameters);
 			return $this;
 		}
@@ -36,11 +39,19 @@
 		public function getQuery(): string {
 			if(!$this->queryServant->hasCommand(Commands\ExprCommand::class))
 				throw new \Exception('You must specify QR function using ->expr($expression, ...$parameters) command.');
-			return json_encode($this->executor->execute($this->queryServant));
+
+			$query = \json_encode($this->executor->execute($this->queryServant));
+
+			if($query === FALSE) {
+				throw new \Exception("Could not create query");
+			}
+
+			return $query;
 		}
 
 		/**
 		 * Gets result of an expression
+		 * @return mixed
 		 */
 		public function getResult() {
 			return $this->execute()->getResult();

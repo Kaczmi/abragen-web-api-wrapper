@@ -23,11 +23,11 @@
 		/**
 		 * Use PUT method to create query
 		 */
-		public function usePutMethod() {
+		public function usePutMethod(): void {
 			$this->usePutMethod = true;
 		}
 
-		public function getResult($url, $body, $optHeaders = array()): Results\Interfaces\IResult {
+		public function getResult($url, $body, $optHeaders = array()): Results\AbraApiImportResult {
 			$caller = $this->getCaller();
 			$resultPlainData = $caller->call($url, $body, $optHeaders);
 			return (new Results\AbraApiImportResult($resultPlainData["content"], $resultPlainData["headers"], $resultPlainData["httpcode"]));

@@ -8,6 +8,6 @@ interface IImportResult extends IResult
 	public function getId(): string;
 	
 	
-	public function getResult();
+	public function getResult(): \stdClass;
 	
 }

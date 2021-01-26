@@ -23,7 +23,7 @@
 					else
 						$selectQuery[] = $select;
 				}
-				return sprintf("%s=%s", Commands\SelectCommand::CLASS_SELECTOR, implode(",", array_map(function($select) {
+				return sprintf("%s=%s", Commands\SelectCommand::CLASS_SELECTOR, implode(",", array_map(function($select): string {
 					return urlencode($select);
 				}, $selectQuery)));
 			}
@@ -34,6 +34,7 @@
 
 		/**
 		 * Merges only data commands
+		 * @return array<mixed>
 		 */
 		public static function mergeDataCommands(QueryServant $queryServant): array {
 			return static::mergeCommands($queryServant, [ Commands\DataCommand::class ]);
@@ -42,14 +43,15 @@
 		/**
 		 * Merges all commands specified in $commandsToMerge (expected array of classes instanceof ICommandQueryBuilder)
 		 * If you don´t use second parameters, in default it only merges ->data(..) commands
-		 * @return array
+		 * @param array<mixed> $commandsToMerge
+		 * @return array<mixed>
 		 */
 		public static function mergeCommands(QueryServant $queryServant, array $commandsToMerge): array {
 			$query = $queryServant->getQuery();
 			$mergedCommand = [];
 			foreach($commandsToMerge as $commandToMerge) {
 				foreach($query as $command) {
-					if($command instanceof $commandToMerge) 
+					if($command instanceof $commandToMerge && $command instanceof ICommandQueryBuilder)
 						$mergedCommand = array_merge_recursive($command->getCommand(), $mergedCommand); 
 				}
 			}

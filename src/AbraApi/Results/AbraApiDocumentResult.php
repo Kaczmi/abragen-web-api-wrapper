@@ -21,6 +21,7 @@ final class AbraApiDocumentResult extends AbstractAbraApiResult implements Inter
 	
 	private function parseResult(string $result): void
 	{
+		$this->content = new \stdClass();
 		$this->content->document = $result;
 	}
 	

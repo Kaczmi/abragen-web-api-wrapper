@@ -10,12 +10,12 @@
 
 	class DeleteQuery extends Query {
 
-		private $resultGetter;
-		private $queryServant;
-		private $boId = null;
-		private $source = null;
+		private Callers\DeleteQueryResultGetter $resultGetter;
+		private QueryServant $queryServant;
+		private ?string $boId = null;
+		private ?string $source = null;
 
-		public function __construct(Callers\Interfaces\IResultGetter $resultGetter) {
+		public function __construct(Callers\DeleteQueryResultGetter $resultGetter) {
 			$this->resultGetter = $resultGetter;
 			$this->queryServant = new QueryServant;
 		}
@@ -31,7 +31,7 @@
 		/**
 		 * Defines, what BO are we quering into
 		 */
-		public function class($class): DeleteQuery {
+		public function class(string $class): DeleteQuery {
 			$this->queryServant->class($class);
 			return $this;
 		}

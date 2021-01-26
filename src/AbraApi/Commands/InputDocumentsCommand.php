@@ -5,12 +5,14 @@ namespace AbraApi\Commands;
 final class InputDocumentsCommand implements Interfaces\ICommandQueryBuilder
 {
 	
-	private const DOCUMENTS_SELECTOR = "input_documents";
+	public const DOCUMENTS_SELECTOR = "input_documents";
 	
 	/** @var array<mixed> */
 	private array $inputDocuments = [];
-	
-	
+
+	/**
+	 * @param array<mixed> $inputDocuments
+	 */
 	public function __construct(array $inputDocuments)
 	{
 		$this->validateInputDocuments($inputDocuments);
@@ -19,9 +21,7 @@ final class InputDocumentsCommand implements Interfaces\ICommandQueryBuilder
 	
 	
 	/**
-	 * @param array<string> $inputDocuments
-	 *
-	 * @throws \Exception
+	 * @param array<mixed> $inputDocuments
 	 */
 	private function validateInputDocuments(array $inputDocuments): void
 	{

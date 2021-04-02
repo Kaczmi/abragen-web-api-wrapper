@@ -1,9 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results\Interfaces;
+namespace AbraApi\Results\Interfaces;
 
-	interface IQrFunctionResult {
+interface IQrFunctionResult extends IResult
+{
 
-		public function getResult();
+	/**
+	 * @return mixed
+	 */
+	public function getResult();
 
-	}
+}

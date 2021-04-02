@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results\Interfaces;
+namespace AbraApi\Results\Interfaces;
 
-	interface IInsertResult {
+interface IInsertResult extends IResult
+{
 
-		public function getInsertedId();
-		
-	}
+	public function getInsertedId(): string;
+
+}

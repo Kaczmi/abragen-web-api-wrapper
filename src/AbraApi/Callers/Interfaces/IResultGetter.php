@@ -1,9 +1,15 @@
-<?php 
+<?php
 
-	namespace AbraApi\Callers\Interfaces;
+namespace AbraApi\Callers\Interfaces;
 
-	interface IResultGetter {
+interface IResultGetter
+{
 
-		public function getResult($url, $body, $optHeaders = array());
+	/**
+	 * @param string $url
+	 * @param string $body
+	 * @param array<mixed> $optHeaders
+	 */
+	public function getResult(string $url, string $body, array $optHeaders = []): \AbraApi\Results\Interfaces\IResult;
 
-	}
+}

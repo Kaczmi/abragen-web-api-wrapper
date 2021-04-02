@@ -1,21 +1,33 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results;
+namespace AbraApi\Results;
 
-	class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Interfaces\IQrFunctionResult {
+final class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Interfaces\IQrFunctionResult
+{
 
-		public function __construct($result, $headers, $httpCode) {
-			$this->parseResult($result);
-			$this->parseHeaders($headers);			
-			$this->setHttpCode($httpCode);
-		}
-
-		private function parseResult($result) {
-			$this->content = json_decode($result);
-		}
-
-		public function getResult() {
-			return $this->content->result;
-		}
-
+	/**
+	 * @param array<mixed> $headers
+	 *
+	 * @throws \AbraApi\Results\BadRequestException
+	 * @throws \AbraApi\Results\NoResponseException
+	 */
+	public function __construct(string $result, array $headers, int $httpCode)
+	{
+		$this->parseResult($result);
+		$this->parseHeaders($headers);
+		$this->setHttpCode($httpCode);
 	}
+
+
+	private function parseResult(string $result): void
+	{
+		$this->content = json_decode($result);
+	}
+
+
+	public function getResult()
+	{
+		return $this->content->result;
+	}
+
+}

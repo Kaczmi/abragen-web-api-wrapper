@@ -1,9 +1,13 @@
-<?php 
+<?php
 
-	namespace AbraApi\Commands\Interfaces;
+namespace AbraApi\Commands\Interfaces;
 
-	interface ICommandQueryBuilder {
+interface ICommandQueryBuilder
+{
 
-		public function getCommand();
-		
-	}
+	/**
+	 * @return array<mixed>
+	 */
+	public function getCommand(): array;
+
+}

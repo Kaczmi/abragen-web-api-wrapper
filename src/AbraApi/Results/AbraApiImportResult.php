@@ -35,8 +35,12 @@ final class AbraApiImportResult extends AbstractAbraApiResult implements Interfa
 	}
 
 
-	public function getResult(): \stdClass
+	public function getResult()
 	{
+		if($this->content === NULL) {
+			throw new \Exception('Import result is NULL');
+		}
+
 		return $this->content;
 	}
 

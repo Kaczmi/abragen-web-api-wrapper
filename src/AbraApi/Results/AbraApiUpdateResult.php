@@ -4,7 +4,7 @@ namespace AbraApi\Results;
 
 final class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfaces\IUpdateResult
 {
-	
+
 	/**
 	 * @param array<mixed> $headers
 	 *
@@ -17,23 +17,23 @@ final class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfa
 		$this->parseHeaders($headers);
 		$this->setHttpCode($httpCode);
 	}
-	
-	
+
+
 	private function parseResult(string $result): void
 	{
 		$this->content = json_decode($result);
 	}
-	
-	
+
+
 	public function getUpdatedId(): string
 	{
 		return $this->content->id;
 	}
-	
-	
+
+
 	public function getResult(): \stdClass
 	{
 		return $this->content;
 	}
-	
+
 }

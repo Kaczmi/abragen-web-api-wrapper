@@ -1,26 +1,27 @@
-<?php 
+<?php declare(strict_types=1);
 
-	declare(strict_types = 1);
+namespace AbraApi\Commands;
 
-	namespace AbraApi\Commands;
+class LimitCommand implements Interfaces\ICommandQueryBuilder
+{
 
-	class LimitCommand implements Interfaces\ICommandQueryBuilder {
+	public const CLASS_SELECTOR = "take";
 
-		public const CLASS_SELECTOR = "take";
+	private int $limit;
 
-		private int $limit;
-
-		public function __construct(int $limit) {
-			$this->limit = $limit;
-		}
-
-		/**
-		 * @return array<string, int>
-		 */
-		public function getCommand(): array {
-			$classCommand = [];
-			$classCommand[self::CLASS_SELECTOR] = $this->limit;
-			return $classCommand;
-		}
-
+	public function __construct(int $limit)
+	{
+		$this->limit = $limit;
 	}
+
+	/**
+	 * @return array<string, int>
+	 */
+	public function getCommand(): array
+	{
+		$classCommand = [];
+		$classCommand[self::CLASS_SELECTOR] = $this->limit;
+		return $classCommand;
+	}
+
+}

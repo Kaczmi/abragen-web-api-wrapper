@@ -4,9 +4,9 @@ namespace AbraApi\Results;
 
 final class AbraApiDocumentResult extends AbstractAbraApiResult implements Interfaces\IDocumentResult
 {
-	
+
 	/**
-	 * @param array<mixed>  $headers
+	 * @param array<mixed> $headers
 	 *
 	 * @throws \AbraApi\Results\BadRequestException
 	 * @throws \AbraApi\Results\NoResponseException
@@ -17,18 +17,18 @@ final class AbraApiDocumentResult extends AbstractAbraApiResult implements Inter
 		$this->parseHeaders($headers);
 		$this->setHttpCode($httpCode);
 	}
-	
-	
+
+
 	private function parseResult(string $result): void
 	{
 		$this->content = new \stdClass();
 		$this->content->document = $result;
 	}
-	
-	
+
+
 	public function getContent(): string
 	{
 		return $this->content->document;
 	}
-	
+
 }

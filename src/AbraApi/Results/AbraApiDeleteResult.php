@@ -4,7 +4,7 @@ namespace AbraApi\Results;
 
 final class AbraApiDeleteResult extends AbstractAbraApiResult implements Interfaces\IDeleteResult
 {
-	
+
 	/**
 	 * @param array<mixed> $headers
 	 *
@@ -17,11 +17,11 @@ final class AbraApiDeleteResult extends AbstractAbraApiResult implements Interfa
 		$this->parseHeaders($headers);
 		$this->setHttpCode($httpCode);
 	}
-	
-	
+
+
 	private function parseResult(string $result): void
 	{
 		$this->content = json_decode($result);
 	}
-	
+
 }

@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace AbraApi\Results\Interfaces;
 
 interface IDataResult extends IResult
 {
-	
+
 	public function fetch(): ?\stdClass;
 
 
@@ -24,5 +24,5 @@ interface IDataResult extends IResult
 	 * @return array<mixed>
 	 */
 	public function fetchFlat(string $field): array;
-	
+
 }

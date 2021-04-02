@@ -6,5 +6,5 @@ namespace AbraApi\Results\Interfaces;
 
 interface IResult
 {
-	
+
 }

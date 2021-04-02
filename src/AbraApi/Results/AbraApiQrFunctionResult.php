@@ -4,9 +4,9 @@ namespace AbraApi\Results;
 
 final class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Interfaces\IQrFunctionResult
 {
-	
+
 	/**
-	 * @param array<mixed>  $headers
+	 * @param array<mixed> $headers
 	 *
 	 * @throws \AbraApi\Results\BadRequestException
 	 * @throws \AbraApi\Results\NoResponseException
@@ -17,17 +17,17 @@ final class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Int
 		$this->parseHeaders($headers);
 		$this->setHttpCode($httpCode);
 	}
-	
-	
+
+
 	private function parseResult(string $result): void
 	{
 		$this->content = json_decode($result);
 	}
-	
+
 
 	public function getResult()
 	{
 		return $this->content->result;
 	}
-	
+
 }

@@ -1,40 +1,40 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace AbraApi\Results;
 
 abstract class AbstractAbraApiResult
 {
-	
+
 	/** @var array<mixed> */
 	protected array $abraResultHeaders;
-	
+
 	protected int $httpCode;
 
 	/**
 	 * @var null|\stdClass|array<\stdClass>
 	 */
 	protected $content = NULL;
-	
-	
+
+
 	/**
 	 * @param array<mixed> $headers
 	 */
 	protected function parseHeaders(array $headers): void
 	{
 		foreach ($headers as $headerKey => $headerValue) {
-			$this->abraResultHeaders[ $headerKey ] = $headerValue;
+			$this->abraResultHeaders[$headerKey] = $headerValue;
 		}
 	}
-	
-	
+
+
 	public function getHeader(string $key): ?string
 	{
-		if (isset($this->abraResultHeaders[ strtolower($key) ])) return $this->abraResultHeaders[ strtolower($key) ];
-		
+		if (isset($this->abraResultHeaders[strtolower($key)])) return $this->abraResultHeaders[strtolower($key)];
+
 		return NULL;
 	}
-	
-	
+
+
 	protected function setHttpCode(int $httpCode): void
 	{
 		$this->httpCode = $httpCode;
@@ -62,8 +62,8 @@ abstract class AbstractAbraApiResult
 			}
 		}
 	}
-	
-	
+
+
 	public function getHttpCode(): int
 	{
 		return $this->httpCode;
@@ -76,7 +76,7 @@ abstract class AbstractAbraApiResult
 	{
 		return $this->abraResultHeaders;
 	}
-	
+
 }
 
 class NoResponseException extends \Exception

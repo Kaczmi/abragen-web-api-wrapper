@@ -1,13 +1,13 @@
-<?php 
+<?php declare(strict_types=1);
 
-	declare(strict_types = 1);
+namespace AbraApi\Commands;
 
-	namespace AbraApi\Commands;
+class ExprCommand extends WhereCommand implements Interfaces\ICommandQueryBuilder
+{
 
-	class ExprCommand extends WhereCommand implements Interfaces\ICommandQueryBuilder {
-
-		public function getExpression(): string {
-			return "expr";
-		}
-
+	public function getExpression(): string
+	{
+		return "expr";
 	}
+
+}

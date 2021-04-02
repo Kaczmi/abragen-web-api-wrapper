@@ -4,14 +4,14 @@ namespace AbraApi\Results;
 
 final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces\IDataResult
 {
-	/** @var array<\stdClass>  */
+	/** @var array<\stdClass> */
 	private array $abraResultRows;
-	
+
 	private int $fetchCount = 0;
-	
-	
+
+
 	/**
-	 * @param array<mixed>  $headers
+	 * @param array<mixed> $headers
 	 *
 	 * @throws \AbraApi\Results\BadRequestException
 	 * @throws \AbraApi\Results\NoResponseException
@@ -22,8 +22,8 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
 		$this->parseHeaders($headers);
 		$this->setHttpCode($httpCode);
 	}
-	
-	
+
+
 	private function parseResult(string $result): void
 	{
 		$this->content = $this->abraResultRows = json_decode($result);
@@ -37,24 +37,24 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
 	{
 		$row = $this->fetch();
 		if (isset($row->$field)) return $row->$field;
-		
+
 		return NULL;
 	}
-	
-	
+
+
 	/**
 	 * Fetches single row or returns null
 	 */
 	public function fetch(): ?\stdClass
 	{
 		if (count($this->abraResultRows) > $this->fetchCount) {
-			return $this->abraResultRows[ $this->fetchCount++ ];
+			return $this->abraResultRows[$this->fetchCount++];
 		}
-		
+
 		return NULL;
 	}
-	
-	
+
+
 	/**
 	 * Get´s full response returned by API
 	 */
@@ -73,9 +73,9 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
 		foreach ($this->abraResultRows as $row) {
 			if (isset($row->$field)) $rtnArray[] = $row->$field;
 		}
-		
+
 		return $rtnArray;
 	}
-	
-	
+
+
 }

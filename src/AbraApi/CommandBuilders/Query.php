@@ -1,15 +1,17 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\CommandBuilders;
+namespace AbraApi\CommandBuilders;
 
-	use AbraApi\Executors\Interfaces\IExecutor;
+use AbraApi\Executors\Interfaces\IExecutor;
 
-	abstract class Query {
+abstract class Query
+{
 
-		protected IExecutor $executor;
+	protected IExecutor $executor;
 
-		public function setExecutor(IExecutor $executor): void {
-			$this->executor = $executor;
-		}
-
+	public function setExecutor(IExecutor $executor): void
+	{
+		$this->executor = $executor;
 	}
+
+}

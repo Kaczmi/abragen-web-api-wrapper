@@ -7,7 +7,9 @@ interface IImportResult extends IResult
 
 	public function getId(): string;
 
-
-	public function getResult(): \stdClass;
+	/**
+	 * @return \stdClass|array<\stdClass>
+	 */
+	public function getResult();
 
 }

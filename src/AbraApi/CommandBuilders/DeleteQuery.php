@@ -2,19 +2,16 @@
 
 namespace AbraApi\CommandBuilders;
 
-use AbraApi\Executors\Interfaces\IExecutor,
-	AbraApi\Callers,
-	AbraApi\Results\Interfaces\IDeleteResult;
 
 class DeleteQuery extends Query
 {
 
-	private Callers\DeleteQueryResultGetter $resultGetter;
+	private \AbraApi\Callers\DeleteQueryResultGetter $resultGetter;
 	private QueryServant $queryServant;
 	private ?string $boId = null;
 	private ?string $source = null;
 
-	public function __construct(Callers\DeleteQueryResultGetter $resultGetter)
+	public function __construct(\AbraApi\Callers\DeleteQueryResultGetter $resultGetter)
 	{
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
@@ -52,7 +49,7 @@ class DeleteQuery extends Query
 	 * Executes query and returns deletes data in abra
 	 * Query uses DELETE method
 	 */
-	public function execute(): IDeleteResult
+	public function execute(): \AbraApi\Results\Interfaces\IDeleteResult
 	{
 		return $this->resultGetter->getResult($this->getApiEndpoint(), "", []);
 	}

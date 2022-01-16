@@ -21,26 +21,23 @@ final class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfa
 		$this->setHttpCode($httpCode);
 	}
 
+    public function getUpdatedId(): string
+    {
+        if (!isset($this->content->id)) {
+            throw new \AbraApi\Results\BadResultException('Update query did not return ID');
+        }
+
+        return $this->content->id;
+    }
+
+    public function getResult(): \stdClass
+    {
+        return $this->content;
+    }
 
 	private function parseResult(string $result): void
 	{
-		$this->content = json_decode($result);
-	}
-
-
-	public function getUpdatedId(): string
-	{
-		if (!isset($this->content->id)) {
-			throw new BadResultException('Update query did not return ID');
-		}
-
-		return $this->content->id;
-	}
-
-
-	public function getResult(): \stdClass
-	{
-		return $this->content;
+		$this->content = \json_decode($result);
 	}
 
 }

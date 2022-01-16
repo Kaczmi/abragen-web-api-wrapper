@@ -2,18 +2,14 @@
 
 namespace AbraApi\CommandBuilders;
 
-use AbraApi\Executors\Interfaces\JsonExecutor,
-	AbraApi\Callers,
-	AbraApi\Results\Interfaces\IInsertResult,
-	AbraApi\Commands;
 
 class InsertQuery extends Query
 {
 
-	private Callers\InsertQueryResultGetter $resultGetter;
+	private \AbraApi\Callers\InsertQueryResultGetter $resultGetter;
 	private QueryServant $queryServant;
 
-	public function __construct(Callers\InsertQueryResultGetter $resultGetter)
+	public function __construct(\AbraApi\Callers\InsertQueryResultGetter $resultGetter)
 	{
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
@@ -53,7 +49,7 @@ class InsertQuery extends Query
 	 * Executes query and returns update data result
 	 * Query uses PUT method
 	 */
-	public function execute(): IInsertResult
+	public function execute(): \AbraApi\Results\Interfaces\IInsertResult
 	{
 		return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery());
 	}
@@ -63,9 +59,9 @@ class InsertQuery extends Query
 	 */
 	public function getApiEndpoint(): string
 	{
-		if (!$this->queryServant->hasCommand(Commands\ClassCommand::class))
+		if (!$this->queryServant->hasCommand(\AbraApi\Commands\ClassCommand::class))
 			throw new \Exception("Insert query must specify bussiness object (class)");
-		return ($this->queryServant->getQueryCommand(Commands\ClassCommand::class)->getClass()) . "?" . (QueryHelpers::createSelectUri($this->queryServant));
+		return ($this->queryServant->getQueryCommand(\AbraApi\Commands\ClassCommand::class)->getClass()) . "?" . QueryHelpers::createSelectUri($this->queryServant);
 	}
 
 	/**
@@ -74,7 +70,7 @@ class InsertQuery extends Query
 	public function getQuery(): string
 	{
 		$mergedDataCommands = QueryHelpers::mergeDataCommands($this->queryServant);
-		if (count($mergedDataCommands) === 0)
+		if (\count($mergedDataCommands) === 0)
 			throw new \Exception("You need to specify data() to create new Abra record.");
 
 		$query = \json_encode($mergedDataCommands);

@@ -10,7 +10,6 @@ interface IUpdateResult extends IResult
 
 	public function getUpdatedId(): string;
 
-
 	public function getResult(): \stdClass;
 
 }

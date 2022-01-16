@@ -72,12 +72,21 @@ class GetDocumentQuery extends Query
 	/**
 	 * Executes query and returns Results\AbraApiDocumentResult
 	 * @param string $acceptHeader defines, what kind of document should Abra return
-	 * @return  IDocumentResult return document result with specified function -> getContent
+	 * @return \AbraApi\Results\Interfaces\IDocumentResult return document result with specified function -> getContent
 	 */
 	public function execute(string $acceptHeader = "Accept: application/pdf"): IDocumentResult
 	{
 		// it is must have
-		if (!($this->queryServant->hasCommand(Commands\ClassCommand::class) && $this->queryServant->hasCommand(Commands\WhereCommand::class) && ($this->reportId !== null || $this->exportId !== null)))
+		if (
+            !(
+                $this->queryServant->hasCommand(Commands\ClassCommand::class)
+                && $this->queryServant->hasCommand(Commands\WhereCommand::class)
+                && (
+                    $this->reportId !== null
+                    || $this->exportId !== null
+                )
+            )
+        )
 			throw new \Exception("To get an export or report, you need to specify class(), whereId() and report() or export()");
 		// we need to make sure we are getting only one report available
 		if ($this->reportId !== null && $this->exportId !== null)
@@ -97,7 +106,7 @@ class GetDocumentQuery extends Query
 			$query["export"] = $this->exportId;
 		if ($this->b2b)
 			$query["b2b"] = "true";
-		return ("query?" . http_build_query($query));
+		return "query?" . \http_build_query($query);
 	}
 
 	/**
@@ -110,7 +119,7 @@ class GetDocumentQuery extends Query
 		if (!$this->queryServant->hasCommand(Commands\SelectCommand::class))
 			$this->queryServant->select("id");
 		// creates JSON request
-		$query = json_encode($this->executor->execute($this->queryServant));
+		$query = \json_encode($this->executor->execute($this->queryServant));
 
 		if ($query === FALSE) {
 			throw new \Exception("Could not create query");

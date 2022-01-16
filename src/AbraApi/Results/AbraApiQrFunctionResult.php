@@ -18,20 +18,18 @@ final class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Int
 		$this->setHttpCode($httpCode);
 	}
 
+    public function getResult()
+    {
+        if (!isset($this->content->result)) {
+            throw new \AbraApi\Results\BadResultException('QR Function did not return result.');
+        }
+
+        return $this->content->result;
+    }
 
 	private function parseResult(string $result): void
 	{
-		$this->content = json_decode($result);
-	}
-
-
-	public function getResult()
-	{
-		if (!isset($this->content->result)) {
-			throw new BadResultException('QR Function did not return result.');
-		}
-
-		return $this->content->result;
+		$this->content = \json_decode($result);
 	}
 
 }

@@ -1,6 +1,5 @@
 <?php
 
-use AbraApi\Commands\ClassCommand;
 use Tester\Assert;
 
 require __DIR__."/../bootstrap.php";
@@ -17,7 +16,7 @@ $document = $abraApi->insert()
 		->data("name", "test")
 		->data("name2", "test2");
 
-Assert::equal([ "name" => "test", "name2" => "test2" ], (array)(json_decode($document->getQuery())));
+Assert::equal(["name" => "test", "name2" => "test2"], (array)(json_decode($document->getQuery())));
 
 $document = $abraApi->insert()
 		->class("storecards")
@@ -26,12 +25,12 @@ $document = $abraApi->insert()
 			"rows" => [
 				[
 					"id" => "1000000120",
-					"storecard_id" => "1000000001"
-				]
-			]
+					"storecard_id" => "1000000001",
+				],
+			],
 		]);
 
-Assert::equal([ "name" => "test", "rows" => [[ "id" => "1000000120", "storecard_id" => "1000000001" ]]], (json_decode($document->getQuery(), true)));
+Assert::equal(["name" => "test", "rows" => [["id" => "1000000120", "storecard_id" => "1000000001"]]], json_decode($document->getQuery(), true));
 
 $document = $abraApi->insert()
 		->class("storecards")
@@ -45,13 +44,13 @@ $document = $abraApi->insert()
 
 Assert::same("storecards?select=id,name+as+storecardName,code", $document->getApiEndpoint());
 
-Assert::exception(function() use($abraApi) {
+Assert::exception(static function() use($abraApi) {
 	$abraApi->insert()
 			->data("name", "test")
 			->getApiEndpoint();
 }, \Exception::class, "Insert query must specify bussiness object (class)");
 
-Assert::exception(function() use($abraApi) {
+Assert::exception(static function() use($abraApi) {
 	$abraApi->insert()
 			->class("storecards")
 			->getQuery();

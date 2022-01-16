@@ -8,6 +8,7 @@ class ParamsCommand implements Interfaces\ICommandQueryBuilder, Interfaces\IMult
 {
 
 	public const PARAMS_SELECTOR = "params";
+
 	/** @var array<mixed> */
 	private array $params = [];
 

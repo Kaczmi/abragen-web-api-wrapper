@@ -12,14 +12,14 @@ class ClassCommand implements Interfaces\ICommandQueryBuilder
 
 	public function __construct(string $className)
 	{
-		if (strlen($className) === 0)
+		if (\strlen($className) === 0)
 			throw new \Exception("BO name expected, empty string given.");
 		$this->className = $className;
 	}
 
 	public function getClass(): string
 	{
-		return trim($this->className);
+		return \trim($this->className);
 	}
 
 	public function getCommand(): array

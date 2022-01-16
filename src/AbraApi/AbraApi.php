@@ -110,6 +110,6 @@ class AbraApi
 	 */
 	public function getCredentials(): string
 	{
-		return base64_encode($this->userName . ":" . $this->password);
+		return \base64_encode($this->userName . ":" . $this->password);
 	}
 }

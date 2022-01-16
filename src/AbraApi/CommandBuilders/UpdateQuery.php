@@ -2,19 +2,15 @@
 
 namespace AbraApi\CommandBuilders;
 
-use AbraApi\Executors\Interfaces\IExecutor,
-	AbraApi\Callers,
-	AbraApi\Results\Interfaces\IUpdateResult,
-	AbraApi\Commands;
 
 class UpdateQuery extends Query
 {
 
-	private Callers\UpdateQueryResultGetter $resultGetter;
+	private \AbraApi\Callers\UpdateQueryResultGetter $resultGetter;
 	private QueryServant $queryServant;
 	private ?string $updateRowId = NULL;
 
-	public function __construct(Callers\UpdateQueryResultGetter $resultGetter)
+	public function __construct(\AbraApi\Callers\UpdateQueryResultGetter $resultGetter)
 	{
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
@@ -63,7 +59,7 @@ class UpdateQuery extends Query
 	 * Executes query and returns update data result
 	 * Query uses PUT method
 	 */
-	public function execute(): IUpdateResult
+	public function execute(): \AbraApi\Results\Interfaces\IUpdateResult
 	{
 		return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery());
 	}
@@ -73,13 +69,13 @@ class UpdateQuery extends Query
 	 */
 	public function getApiEndpoint(): string
 	{
-		if (!$this->queryServant->hasCommand(Commands\ClassCommand::class))
+		if (!$this->queryServant->hasCommand(\AbraApi\Commands\ClassCommand::class))
 			throw new \Exception("Update query must specify bussiness object to be edited (class)");
 		if ($this->updateRowId === null)
 			throw new \Exception("Update query must specify ID of row to be edited.");
-		return ($this->queryServant->getQueryCommand(Commands\ClassCommand::class)->getClass())
-			. "/" . ($this->updateRowId)
-			. "?" . (QueryHelpers::createSelectUri($this->queryServant));
+		return ($this->queryServant->getQueryCommand(\AbraApi\Commands\ClassCommand::class)->getClass())
+			. "/" . $this->updateRowId
+			. "?" . QueryHelpers::createSelectUri($this->queryServant);
 	}
 
 	/**
@@ -88,7 +84,7 @@ class UpdateQuery extends Query
 	public function getQuery(): string
 	{
 		$mergedDataCommands = QueryHelpers::mergeDataCommands($this->queryServant);
-		if (count($mergedDataCommands) === 0)
+		if (\count($mergedDataCommands) === 0)
 			throw new \Exception("You need to specify data() - which columns are supposed to be edited in update query");
 
 		$query = \json_encode($mergedDataCommands);

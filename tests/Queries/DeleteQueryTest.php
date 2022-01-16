@@ -1,6 +1,5 @@
 <?php
 
-use AbraApi\Commands\ClassCommand;
 use Tester\Assert;
 
 require __DIR__."/../bootstrap.php";
@@ -16,7 +15,7 @@ $body = $abraApi->delete()
 
 Assert::same('storecards/10000000001/rows/20000000001', $body->getApiEndpoint());
 
-Assert::exception(function() use($abraApi) {
+Assert::exception(static function() use($abraApi) {
 	$abraApi->delete()
 			->class("storecards")
 			->setSource("storecards/10000000001/rows/20000000001")
@@ -24,7 +23,7 @@ Assert::exception(function() use($abraApi) {
 			->getApiEndpoint();
 }, \Exception::class, "You can set only one source for delete() query.");
 
-Assert::exception(function() use($abraApi) {
+Assert::exception(static function() use($abraApi) {
 	$abraApi->delete()
 			->class("storecards")
 			->getApiEndpoint();

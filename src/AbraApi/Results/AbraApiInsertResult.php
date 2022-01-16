@@ -21,29 +21,26 @@ final class AbraApiInsertResult extends AbstractAbraApiResult implements Interfa
 		$this->setHttpCode($httpCode);
 	}
 
+    public function getInsertedId(): string
+    {
+        if (!isset($this->content->id)) {
+            throw new \AbraApi\Results\BadResultException('Insert query did not return ID');
+        }
+
+        return $this->content->id;
+    }
+
+    /**
+     * @return \stdClass
+     */
+    public function getResult()
+    {
+        return $this->content;
+    }
 
 	private function parseResult(string $result): void
 	{
-		$this->content = json_decode($result);
-	}
-
-
-	public function getInsertedId(): string
-	{
-		if (!isset($this->content->id)) {
-			throw new BadResultException('Insert query did not return ID');
-		}
-
-		return $this->content->id;
-	}
-
-
-	/**
-	 * @return \stdClass
-	 */
-	public function getResult()
-	{
-		return $this->content;
+		$this->content = \json_decode($result);
 	}
 
 }

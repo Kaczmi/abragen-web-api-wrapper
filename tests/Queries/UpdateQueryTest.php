@@ -1,6 +1,5 @@
 <?php
 
-use AbraApi\Commands\ClassCommand;
 use Tester\Assert;
 
 require __DIR__."/../bootstrap.php";
@@ -19,7 +18,7 @@ $document = $abraApi->update()
 		->data("name2", "test2")
 		->whereId("1000000001");
 
-Assert::equal([ "name" => "test", "name2" => "test2" ], (array)(json_decode($document->getQuery())));
+Assert::equal(["name" => "test", "name2" => "test2"], (array)(json_decode($document->getQuery())));
 
 $document = $abraApi->update()
 		->class("storecards")
@@ -28,13 +27,13 @@ $document = $abraApi->update()
 			"rows" => [
 				[
 					"id" => "1000000120",
-					"storecard_id" => "1000000001"
-				]
-			]
+					"storecard_id" => "1000000001",
+				],
+			],
 		])
 		->whereId("1000000001");
 
-Assert::equal([ "name" => "test", "rows" => [[ "id" => "1000000120", "storecard_id" => "1000000001" ]]], (json_decode($document->getQuery(), true)));
+Assert::equal(["name" => "test", "rows" => [["id" => "1000000120", "storecard_id" => "1000000001"]]], json_decode($document->getQuery(), true));
 
 $document = $abraApi->update()
 		->class("storecards")
@@ -50,19 +49,19 @@ $document = $abraApi->update()
 
 Assert::same("storecards/1000000001?select=id,name+as+storecardName,code", $document->getApiEndpoint());
 
-Assert::exception(function() use($abraApi) {
+Assert::exception(static function() use($abraApi) {
 	$abraApi->update()
 			->whereId("1000000001")
 			->getApiEndpoint();
 }, \Exception::class, "Update query must specify bussiness object to be edited (class)");
 
-Assert::exception(function() use($abraApi) {
+Assert::exception(static function() use($abraApi) {
 	$abraApi->update()
 			->class("storecards")
 			->getApiEndpoint();
 }, \Exception::class, "Update query must specify ID of row to be edited.");
 
-Assert::exception(function() use($abraApi) {
+Assert::exception(static function() use($abraApi) {
 	$abraApi->update()
 			->class("storecards")
 			->whereId("1000000001")

@@ -1,6 +1,5 @@
 <?php
 
-use AbraApi\Commands\ClassCommand;
 use Tester\Assert;
 
 require __DIR__."/../bootstrap.php";
@@ -25,15 +24,15 @@ Assert::same('{"class":"issuedinvoices","select":[{"name":"radky_faktury","value
 
 $body = $abraApi->get()
 		->class("issuedinvoices")
-		->select([ "invoice_name" => "DisplayName" ])
-		->whereId([ "1000000101", "2000000101" ])
+		->select(["invoice_name" => "DisplayName"])
+		->whereId(["1000000101", "2000000101"])
 		->getQuery();
 
 Assert::same('{"class":"issuedinvoices","select":[{"name":"invoice_name","value":"DisplayName"}],"where":"id in (\'1000000101\', \'2000000101\')"}', $body);
 
 $body = $abraApi->get()
 		->class("issuedinvoices")
-		->select([ "invoice_name" => "DisplayName" ])
+		->select(["invoice_name" => "DisplayName"])
 		->whereId("1000000101")
 		->getQuery();
 
@@ -41,7 +40,7 @@ Assert::same('{"class":"issuedinvoices","select":[{"name":"invoice_name","value"
 
 $body = $abraApi->get()
 		->class("issuedinvoices")
-		->select([ "invoice_name" => "DisplayName" ])
+		->select(["invoice_name" => "DisplayName"])
 		->expand("rows")
 			->select("storecard_id")
 			->expand("skladova_karta", "storecard_id")
@@ -57,7 +56,7 @@ Assert::equal([
 	"select" => [
 		[
 			"name" => "invoice_name",
-			"value" => "DisplayName"
+			"value" => "DisplayName",
 		],
 		[
 			"name" => "rows",
@@ -74,23 +73,23 @@ Assert::equal([
 									"select" => [
 										"name",
 										"code",
-										"x_column"
-									]
-								]
-							]
-						]
+										"x_column",
+									],
+								],
+							],
+						],
 					],
 					"orderby" => [
 						[
 							"value" => "amount",
-							"desc" => true
-						]
-					]
-				]
-			]
-		]
+							"desc" => true,
+						],
+					],
+				],
+			],
+		],
 	],
-	"where" => "id in ('1000000101')"
+	"where" => "id in ('1000000101')",
 ], json_decode($body, true));
 
 
@@ -105,11 +104,11 @@ $body = $abraApi->get()
 Assert::equal([
 	"class" => "issuedinvoices",
 	"select" => [
-		"id"
+		"id",
 	],
 	"where" => "name LIKE '*test*' and code LIKE '*TEST*'",
 	"take" => 5,
-	"skip" => 10
+	"skip" => 10,
 ], json_decode($body, true));
 
 $body = $abraApi->get()
@@ -132,12 +131,12 @@ Assert::equal([
 			"value" => [
 				"class" => "relations",
 				"select" => [
-					"id"
+					"id",
 				],
 				"where" => "vazba_id = :id",
-				"take" => 10
-			]
-		]
+				"take" => 10,
+			],
+		],
 	],
 ], json_decode($body, true));
 
@@ -145,7 +144,7 @@ $body = $abraApi->get()
 	  ->class("issuedinvoices")
 	  ->select("displayname")
 	  ->expand("issuedInvoiceRows", "rows")
-		->select([ "productName" => "storecard_id.name" ])
+		->select(["productName" => "storecard_id.name"])
 		->end()
 	  ->whereId("1010000010")
 	  ->getQuery();
@@ -162,14 +161,14 @@ Assert::equal([
 					"select" => [
 						[
 							"name" => "productName",
-							"value" => "storecard_id.name"
-						]
-					]
-				]
-			]
-		]
+							"value" => "storecard_id.name",
+						],
+					],
+				],
+			],
+		],
 	],
-	"where" => "id in ('1010000010')"
+	"where" => "id in ('1010000010')",
 ], json_decode($body, true));
 
 $body = $abraApi->get()
@@ -192,12 +191,12 @@ Assert::equal([
 			"value" => [
 				"class" => "relations",
 				"select" => [
-					"id"
+					"id",
 				],
 				"where" => "vazba_id = :id",
-				"take" => 10
-			]
-		]
+				"take" => 10,
+			],
+		],
 	],
 ], json_decode($body, true));
 
@@ -211,7 +210,7 @@ Assert::equal([
 	"class" => "issuedinvoices",
 	"fulltext" => "FVT-1/2020",
 	"select" => [
-		"id"
+		"id",
 	],
 ], json_decode($body, true));
 
@@ -220,7 +219,7 @@ $body = $abraApi->get()
 		->fulltext("FVT-1/2020")
 		->select("id")
 		->expand("rows")
-			->select([ "storecardName" => "storecard_id.name" ])
+			->select(["storecardName" => "storecard_id.name"])
 			->fulltext("test")
 			->end()
 		->getQuery();
@@ -239,12 +238,12 @@ Assert::equal([
 					"select" => [
 						[
 							"name" => "storecardName",
-							"value" => "storecard_id.name"
-						]
-					]
-				]
-			]
-		]
+							"value" => "storecard_id.name",
+						],
+					],
+				],
+			],
+		],
 	],
 ], json_decode($body, true));
 
@@ -253,10 +252,10 @@ $body = $abraApi->get()
 		->fulltext("FVT-1/2020")
 		->select("id")
 		->expand("rows")
-			->select([ "storecardName" => "storecard_id.name" ])
+			->select(["storecardName" => "storecard_id.name"])
 			->end()
 		->expand("firm_id")
-			->select([ "firm_name" => "name" ])
+			->select(["firm_name" => "name"])
 			->end()
 		->getQuery();
 
@@ -273,11 +272,11 @@ Assert::equal([
 					"select" => [
 						[
 							"name" => "storecardName",
-							"value" => "storecard_id.name"
-						]
-					]
-				]
-			]
+							"value" => "storecard_id.name",
+						],
+					],
+				],
+			],
 		],
 		[
 			"name" => "firm_id",
@@ -287,12 +286,12 @@ Assert::equal([
 					"select" => [
 						[
 							"name" => "firm_name",
-							"value" => "name"
-						]
-					]
-				]
-			]
-		]
+							"value" => "name",
+						],
+					],
+				],
+			],
+		],
 	],
 ], json_decode($body, true));
 

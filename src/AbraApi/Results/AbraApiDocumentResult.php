@@ -18,21 +18,19 @@ final class AbraApiDocumentResult extends AbstractAbraApiResult implements Inter
 		$this->setHttpCode($httpCode);
 	}
 
+    public function getContent(): string
+    {
+        if(!isset($this->content->document)) {
+            throw new \Exception('Content of document not found');
+        }
+
+        return $this->content->document;
+    }
 
 	private function parseResult(string $result): void
 	{
 		$this->content = new \stdClass();
 		$this->content->document = $result;
-	}
-
-
-	public function getContent(): string
-	{
-		if(!isset($this->content->document)) {
-			throw new \Exception('Content of document not found');
-		}
-
-		return $this->content->document;
 	}
 
 }

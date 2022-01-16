@@ -2,9 +2,6 @@
 
 namespace AbraApi\CommandBuilders;
 
-use AbraApi\Commands;
-use AbraApi\Commands\Interfaces\ICommandQueryBuilder;
-
 class QueryHelpers
 {
 
@@ -16,17 +13,17 @@ class QueryHelpers
 	 */
 	public static function createSelectUri(QueryServant $queryServant): string
 	{
-		if ($queryServant->hasCommand(Commands\SelectCommand::class)) {
-			$selects = $queryServant->getQueryCommand(Commands\SelectCommand::class)->getCommand()[Commands\SelectCommand::CLASS_SELECTOR];
+		if ($queryServant->hasCommand(\AbraApi\Commands\SelectCommand::class)) {
+			$selects = $queryServant->getQueryCommand(\AbraApi\Commands\SelectCommand::class)->getCommand()[\AbraApi\Commands\SelectCommand::CLASS_SELECTOR];
 			$selectQuery = [];
 			foreach ($selects as $select) {
-				if (is_array($select))
+				if (\is_array($select))
 					$selectQuery[] = $select["value"] . " as " . $select["name"];
 				else
 					$selectQuery[] = $select;
 			}
-			return sprintf("%s=%s", Commands\SelectCommand::CLASS_SELECTOR, implode(",", array_map(function ($select): string {
-				return urlencode($select);
+			return \sprintf("%s=%s", \AbraApi\Commands\SelectCommand::CLASS_SELECTOR, \implode(",", \array_map(static function ($select): string {
+				return \urlencode($select);
 			}, $selectQuery)));
 		} else {
 			return "select=id";
@@ -39,7 +36,7 @@ class QueryHelpers
 	 */
 	public static function mergeDataCommands(QueryServant $queryServant): array
 	{
-		return static::mergeCommands($queryServant, [Commands\DataCommand::class]);
+		return static::mergeCommands($queryServant, [\AbraApi\Commands\DataCommand::class]);
 	}
 
 	/**
@@ -54,8 +51,8 @@ class QueryHelpers
 		$mergedCommand = [];
 		foreach ($commandsToMerge as $commandToMerge) {
 			foreach ($query as $command) {
-				if ($command instanceof $commandToMerge && $command instanceof ICommandQueryBuilder)
-					$mergedCommand = array_merge_recursive($command->getCommand(), $mergedCommand);
+				if ($command instanceof $commandToMerge && $command instanceof \AbraApi\Commands\Interfaces\ICommandQueryBuilder)
+					$mergedCommand = \array_merge_recursive($command->getCommand(), $mergedCommand);
 			}
 		}
 		return $mergedCommand;

@@ -15,6 +15,25 @@ abstract class AbstractAbraApiResult
 	 */
 	protected $content = NULL;
 
+    public function getHeader(string $key): ?string
+    {
+        if (isset($this->abraResultHeaders[\strtolower($key)])) return $this->abraResultHeaders[\strtolower($key)];
+
+        return NULL;
+    }
+
+    public function getHttpCode(): int
+    {
+        return $this->httpCode;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getHeaders(): array
+    {
+        return $this->abraResultHeaders;
+    }
 
 	/**
 	 * @param array<mixed> $headers
@@ -26,15 +45,6 @@ abstract class AbstractAbraApiResult
 		}
 	}
 
-
-	public function getHeader(string $key): ?string
-	{
-		if (isset($this->abraResultHeaders[strtolower($key)])) return $this->abraResultHeaders[strtolower($key)];
-
-		return NULL;
-	}
-
-
 	protected function setHttpCode(int $httpCode): void
 	{
 		$this->httpCode = $httpCode;
@@ -43,14 +53,14 @@ abstract class AbstractAbraApiResult
 			switch ($httpCode) {
 				case 0:
 				{
-					throw new NoResponseException("API is not responding, try to restart API´s Supervisor and Server.");
+					throw new \AbraApi\Results\NoResponseException("API is not responding, try to restart API´s Supervisor and Server.");
 				}
 				case 400:
 				{
 					$error = "Not-specified error occured (400) - propably some problem with Abra database consistency.";
 					if (isset($this->content->description)) $error = $this->content->description;
 					else if (isset($this->content->error)) $error = $this->content->error;
-					throw new BadRequestException($error);
+					throw new \AbraApi\Results\BadRequestException($error);
 				}
 				default:
 				{
@@ -61,20 +71,6 @@ abstract class AbstractAbraApiResult
 				}
 			}
 		}
-	}
-
-
-	public function getHttpCode(): int
-	{
-		return $this->httpCode;
-	}
-
-	/**
-	 * @return array<mixed>
-	 */
-	public function getHeaders(): array
-	{
-		return $this->abraResultHeaders;
 	}
 
 }

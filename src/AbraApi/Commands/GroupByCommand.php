@@ -26,7 +26,7 @@ class GroupByCommand implements Interfaces\ICommandQueryBuilder
 	public function processGroupBy($groupBy): void
 	{
 		foreach ($groupBy as $groupColumn) {
-			if (!is_string($groupColumn))
+			if (!\is_string($groupColumn))
 				throw new \Exception("Group by parameter is supposed to be name of column to aggregate.");
 			$this->groupBy[] = $groupColumn;
 		}

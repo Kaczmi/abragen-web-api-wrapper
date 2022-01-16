@@ -18,30 +18,27 @@ final class AbraApiImportResult extends AbstractAbraApiResult implements Interfa
 		$this->setHttpCode($httpCode);
 	}
 
+    public function getId(): string
+    {
+        if (!isset($this->content->id)) {
+            throw new \Exception('Error - ID not found');
+        }
+
+        return $this->content->id;
+    }
+
+    public function getResult()
+    {
+        if($this->content === NULL) {
+            throw new \Exception('Import result is NULL');
+        }
+
+        return $this->content;
+    }
 
 	private function parseResult(string $result): void
 	{
-		$this->content = json_decode($result);
-	}
-
-
-	public function getId(): string
-	{
-		if (!isset($this->content->id)) {
-			throw new \Exception('Error - ID not found');
-		}
-
-		return $this->content->id;
-	}
-
-
-	public function getResult()
-	{
-		if($this->content === NULL) {
-			throw new \Exception('Import result is NULL');
-		}
-
-		return $this->content;
+		$this->content = \json_decode($result);
 	}
 
 }

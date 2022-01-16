@@ -27,9 +27,9 @@ class SelectCommand implements Interfaces\ICommandQueryBuilder
 	public function processSelects(array $selects): void
 	{
 		foreach ($selects as $select) {
-			if (is_array($select)) {
+			if (\is_array($select)) {
 				foreach ($select as $name => $value) {
-					if (!is_int($name)) {
+					if (!\is_int($name)) {
 						$selectQuery["name"] = $name;
 						$selectQuery["value"] = $value;
 						$this->selects[] = $selectQuery;

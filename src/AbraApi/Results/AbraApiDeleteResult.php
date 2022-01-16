@@ -18,10 +18,9 @@ final class AbraApiDeleteResult extends AbstractAbraApiResult implements Interfa
 		$this->setHttpCode($httpCode);
 	}
 
-
 	private function parseResult(string $result): void
 	{
-		$this->content = json_decode($result);
+		$this->content = \json_decode($result);
 	}
 
 }

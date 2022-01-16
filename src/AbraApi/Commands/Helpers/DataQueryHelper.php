@@ -18,21 +18,26 @@ class DataQueryHelper
 	 */
 	public static function processDataCommand(array $dataToProcess): array
 	{
-		if (count($dataToProcess) === 2) {
-			if (isset($dataToProcess[0]) && isset($dataToProcess[1]) && !is_array($dataToProcess[0]) && !is_array($dataToProcess[1])) {
+		if (\count($dataToProcess) === 2) {
+			if (
+                isset($dataToProcess[0])
+                && isset($dataToProcess[1])
+                && !\is_array($dataToProcess[0])
+                && !\is_array($dataToProcess[1])
+            ) {
 				// this is simple data command, only column - value
 				return [$dataToProcess[0] => $dataToProcess[1]];
 			}
 		}
 		$command = [];
 		foreach ($dataToProcess as $pr) {
-			if (!is_array($pr)) {
-				if (is_object($pr))
-					throw new \Exception("Processing data - array was expected, instance of " . get_class($pr) . " given");
+			if (!\is_array($pr)) {
+				if (\is_object($pr))
+					throw new \Exception("Processing data - array was expected, instance of " . \get_class($pr) . " given");
 				else
 					throw new \Exception("Processing data - array was expected, '" . $pr . "' given");
 			}
-			$command = array_merge($command, $pr);
+			$command = \array_merge($command, $pr);
 		}
 		return $command;
 	}

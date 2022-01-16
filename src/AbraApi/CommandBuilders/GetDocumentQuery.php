@@ -11,10 +11,15 @@ class GetDocumentQuery extends Query
 {
 
 	private Callers\GetDocumentResultGetter $resultGetter;
+
 	private QueryServant $queryServant;
+
 	private bool $b2b = false;
+
 	private ?string $reportId = null;
+
 	private ?string $exportId = null;
+
 
 	public function __construct(IExecutor $executor, Callers\GetDocumentResultGetter $resultGetter)
 	{
@@ -22,6 +27,7 @@ class GetDocumentQuery extends Query
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
 	}
+
 
 	/**
 	 * Defines, what BO are we quering into
@@ -31,6 +37,7 @@ class GetDocumentQuery extends Query
 		$this->queryServant->class($class);
 		return $this;
 	}
+
 
 	/**
 	 * Condition
@@ -42,6 +49,7 @@ class GetDocumentQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * Defines report ID
 	 */
@@ -50,6 +58,7 @@ class GetDocumentQuery extends Query
 		$this->reportId = $id;
 		return $this;
 	}
+
 
 	/**
 	 * Defines export ID
@@ -60,6 +69,7 @@ class GetDocumentQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * Specifies, that we need to generate document using b2b export
 	 */
@@ -68,6 +78,7 @@ class GetDocumentQuery extends Query
 		$this->b2b = true;
 		return $this;
 	}
+
 
 	/**
 	 * Executes query and returns Results\AbraApiDocumentResult
@@ -94,6 +105,7 @@ class GetDocumentQuery extends Query
 		return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery(), [$acceptHeader]);
 	}
 
+
 	/**
 	 * Returns query end point
 	 */
@@ -108,6 +120,7 @@ class GetDocumentQuery extends Query
 			$query["b2b"] = "true";
 		return "query?" . \http_build_query($query);
 	}
+
 
 	/**
 	 * Returns query for API
@@ -128,6 +141,7 @@ class GetDocumentQuery extends Query
 		return $query;
 	}
 
+
 	/**
 	 * Returns PDF document data (it´s purpose is to send it to user directly via HTTP response or save it into file)
 	 */
@@ -136,6 +150,7 @@ class GetDocumentQuery extends Query
 		return $this->execute("Accept: application/pdf")->getContent();
 	}
 
+
 	/**
 	 * Returns Xlsx document
 	 */
@@ -143,6 +158,7 @@ class GetDocumentQuery extends Query
 	{
 		return $this->execute("Accept: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")->getContent();
 	}
+
 
 	/**
 	 * Returns Csv document

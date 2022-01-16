@@ -20,7 +20,10 @@ $body = $abraApi->get()
 		->where("id = ?", '1000000101')
 		->getQuery();
 
-Assert::same('{"class":"issuedinvoices","select":[{"name":"radky_faktury","value":{"field":"rows","query":{"select":["storecard_id"]}}}],"where":"id = \'1000000101\'"}', $body);
+Assert::same(
+	'{"class":"issuedinvoices","select":[{"name":"radky_faktury","value":{"field":"rows","query":{"select":["storecard_id"]}}}],"where":"id = \'1000000101\'"}',
+	$body
+);
 
 $body = $abraApi->get()
 		->class("issuedinvoices")
@@ -28,7 +31,10 @@ $body = $abraApi->get()
 		->whereId(["1000000101", "2000000101"])
 		->getQuery();
 
-Assert::same('{"class":"issuedinvoices","select":[{"name":"invoice_name","value":"DisplayName"}],"where":"id in (\'1000000101\', \'2000000101\')"}', $body);
+Assert::same(
+	'{"class":"issuedinvoices","select":[{"name":"invoice_name","value":"DisplayName"}],"where":"id in (\'1000000101\', \'2000000101\')"}',
+	$body
+);
 
 $body = $abraApi->get()
 		->class("issuedinvoices")

@@ -7,8 +7,10 @@ class ClassCommand implements Interfaces\ICommandQueryBuilder
 
 	const CLASS_SELECTOR = "class";
 
+
 	/** @var string */
 	private $className;
+
 
 	public function __construct(string $className)
 	{
@@ -17,10 +19,12 @@ class ClassCommand implements Interfaces\ICommandQueryBuilder
 		$this->className = $className;
 	}
 
+
 	public function getClass(): string
 	{
 		return \trim($this->className);
 	}
+
 
 	public function getCommand(): array
 	{

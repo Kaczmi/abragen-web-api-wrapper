@@ -11,7 +11,9 @@ class QrQuery extends Query
 {
 
 	private Callers\QrFunctionsResultGetter $resultGetter;
+
 	private QueryServant $queryServant;
+
 
 	public function __construct(IExecutor $executor, Callers\QrFunctionsResultGetter $resultGetter)
 	{
@@ -19,6 +21,7 @@ class QrQuery extends Query
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
 	}
+
 
 	/**
 	 * @param mixed ...$parameters
@@ -29,6 +32,7 @@ class QrQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * Executes expression query
 	 */
@@ -36,6 +40,7 @@ class QrQuery extends Query
 	{
 		return $this->resultGetter->getResult("qrexpr", $this->getQuery());
 	}
+
 
 	/**
 	 * Returns query as a JSON encoded string to be send to result getter
@@ -53,6 +58,7 @@ class QrQuery extends Query
 
 		return $query;
 	}
+
 
 	/**
 	 * Gets result of an expression

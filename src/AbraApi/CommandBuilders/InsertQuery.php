@@ -7,13 +7,16 @@ class InsertQuery extends Query
 {
 
 	private \AbraApi\Callers\InsertQueryResultGetter $resultGetter;
+
 	private QueryServant $queryServant;
+
 
 	public function __construct(\AbraApi\Callers\InsertQueryResultGetter $resultGetter)
 	{
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
 	}
+
 
 	/**
 	 * Defines, what BO are we quering into
@@ -23,6 +26,7 @@ class InsertQuery extends Query
 		$this->queryServant->class($class);
 		return $this;
 	}
+
 
 	/**
 	 * What columns should result return
@@ -35,6 +39,7 @@ class InsertQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * What columns are supposed to be updated
 	 * @param mixed ...$data
@@ -45,6 +50,7 @@ class InsertQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * Executes query and returns update data result
 	 * Query uses PUT method
@@ -54,6 +60,7 @@ class InsertQuery extends Query
 		return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery());
 	}
 
+
 	/**
 	 * Creates endpoint for query
 	 */
@@ -61,8 +68,11 @@ class InsertQuery extends Query
 	{
 		if (!$this->queryServant->hasCommand(\AbraApi\Commands\ClassCommand::class))
 			throw new \Exception("Insert query must specify bussiness object (class)");
-		return ($this->queryServant->getQueryCommand(\AbraApi\Commands\ClassCommand::class)->getClass()) . "?" . QueryHelpers::createSelectUri($this->queryServant);
+		return ($this->queryServant->getQueryCommand(\AbraApi\Commands\ClassCommand::class)->getClass()) . "?" . QueryHelpers::createSelectUri(
+            $this->queryServant
+        );
 	}
+
 
 	/**
 	 * Merges all data commands and return it as JSON object

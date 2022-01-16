@@ -18,6 +18,7 @@ final class AbraApiDocumentResult extends AbstractAbraApiResult implements Inter
 		$this->setHttpCode($httpCode);
 	}
 
+
     public function getContent(): string
     {
         if(!isset($this->content->document)) {
@@ -26,6 +27,7 @@ final class AbraApiDocumentResult extends AbstractAbraApiResult implements Inter
 
         return $this->content->document;
     }
+
 
 	private function parseResult(string $result): void
 	{

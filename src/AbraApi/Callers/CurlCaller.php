@@ -14,7 +14,9 @@ abstract class CurlCaller
         "\\u201" => '&quot;',
     ];
 
+
 	protected \AbraApi\AbraApi $abraApi;
+
 
 	/**
 	 * @param array<mixed> $optHeaders
@@ -79,6 +81,7 @@ abstract class CurlCaller
 			"httpcode" => $httpcode,
 		];
 	}
+
 
 	/**
 	 * There are some forbidden characters we cannot use in JSON body

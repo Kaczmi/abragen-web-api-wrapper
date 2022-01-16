@@ -10,6 +10,7 @@ class DeleteCaller extends CurlCaller implements Interfaces\ICaller
 		$this->abraApi = $abraApi;
 	}
 
+
 	/**
 	 * @param string $url
 	 * @param string $body

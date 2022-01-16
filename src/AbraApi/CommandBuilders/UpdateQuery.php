@@ -7,14 +7,18 @@ class UpdateQuery extends Query
 {
 
 	private \AbraApi\Callers\UpdateQueryResultGetter $resultGetter;
+
 	private QueryServant $queryServant;
+
 	private ?string $updateRowId = NULL;
+
 
 	public function __construct(\AbraApi\Callers\UpdateQueryResultGetter $resultGetter)
 	{
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
 	}
+
 
 	/**
 	 * Defines, what BO are we quering into
@@ -24,6 +28,7 @@ class UpdateQuery extends Query
 		$this->queryServant->class($class);
 		return $this;
 	}
+
 
 	/**
 	 * What columns should result return
@@ -36,6 +41,7 @@ class UpdateQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * What columns are supposed to be updated
 	 * @param mixed ...$data
@@ -46,6 +52,7 @@ class UpdateQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * What columns must query return
 	 */
@@ -55,6 +62,7 @@ class UpdateQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * Executes query and returns update data result
 	 * Query uses PUT method
@@ -63,6 +71,7 @@ class UpdateQuery extends Query
 	{
 		return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery());
 	}
+
 
 	/**
 	 * Creates endpoint for query
@@ -77,6 +86,7 @@ class UpdateQuery extends Query
 			. "/" . $this->updateRowId
 			. "?" . QueryHelpers::createSelectUri($this->queryServant);
 	}
+
 
 	/**
 	 * Merges all data commands and return it as JSON object

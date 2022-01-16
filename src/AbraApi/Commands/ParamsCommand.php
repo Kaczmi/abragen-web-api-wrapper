@@ -9,8 +9,10 @@ class ParamsCommand implements Interfaces\ICommandQueryBuilder, Interfaces\IMult
 
 	public const PARAMS_SELECTOR = "params";
 
+
 	/** @var array<mixed> */
 	private array $params = [];
+
 
 	/**
 	 * @param mixed ...$params
@@ -19,6 +21,7 @@ class ParamsCommand implements Interfaces\ICommandQueryBuilder, Interfaces\IMult
 	{
 		$this->params = DataQueryHelper::processDataCommand($params);
 	}
+
 
 	/**
 	 * @return array<string, array<mixed>>

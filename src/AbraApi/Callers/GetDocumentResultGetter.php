@@ -9,10 +9,12 @@ final class GetDocumentResultGetter implements Interfaces\IResultGetter
 
 	private \AbraApi\Callers\Interfaces\ICaller $caller;
 
+
 	public function __construct(Interfaces\ICaller $caller)
 	{
 		$this->caller = $caller;
 	}
+
 
 	/**
 	 * @param array<mixed> $optHeaders

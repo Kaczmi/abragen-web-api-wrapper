@@ -12,13 +12,22 @@ $orderByCommand = new OrderByCommand("name", "code");
 Assert::same(["orderby" => [["value" => "name", "desc" => false], ["value" => "code", "desc" => false]]], $orderByCommand->getCommand());
 
 $orderByCommand = new OrderByCommand("name", "code", ["shortname" => true]);
-Assert::same(["orderby" => [["value" => "name", "desc" => false], ["value" => "code", "desc" => false], ["value" => "shortname", "desc" => true]]], $orderByCommand->getCommand());
+Assert::same(
+	["orderby" => [["value" => "name", "desc" => false], ["value" => "code", "desc" => false], ["value" => "shortname", "desc" => true]]],
+	$orderByCommand->getCommand()
+);
 
 $orderByCommand = new OrderByCommand(["name"], ["code"], ["shortname" => true]);
-Assert::same(["orderby" => [["value" => "name", "desc" => false], ["value" => "code", "desc" => false], ["value" => "shortname", "desc" => true]]], $orderByCommand->getCommand());
+Assert::same(
+	["orderby" => [["value" => "name", "desc" => false], ["value" => "code", "desc" => false], ["value" => "shortname", "desc" => true]]],
+	$orderByCommand->getCommand()
+);
 
 $orderByCommand = new OrderByCommand(["name", "code", "shortname" => true]);
-Assert::same(["orderby" => [["value" => "name", "desc" => false], ["value" => "code", "desc" => false], ["value" => "shortname", "desc" => true]]], $orderByCommand->getCommand());
+Assert::same(
+	["orderby" => [["value" => "name", "desc" => false], ["value" => "code", "desc" => false], ["value" => "shortname", "desc" => true]]],
+	$orderByCommand->getCommand()
+);
 
 Assert::exception(static function() {
 	new OrderByCommand(["name", "code", ["shortname" => true]]);

@@ -9,8 +9,10 @@ class OutputDocumentCommand implements Interfaces\ICommandQueryBuilder, Interfac
 
 	public const DATA_SELECTOR = "output_document_update";
 
+
 	/** @var array<mixed> */
 	private $data = [];
+
 
 	/**
 	 * @param mixed ...$data
@@ -19,6 +21,7 @@ class OutputDocumentCommand implements Interfaces\ICommandQueryBuilder, Interfac
 	{
 		$this->data = DataQueryHelper::processDataCommand($data);
 	}
+
 
 	/**
 	 * @return array<string, array<mixed>>

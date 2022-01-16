@@ -7,12 +7,15 @@ class SkipCommand implements Interfaces\ICommandQueryBuilder
 
 	public const CLASS_SELECTOR = "skip";
 
+
 	private int $skip;
+
 
 	public function __construct(int $skip)
 	{
 		$this->skip = $skip;
 	}
+
 
 	/**
 	 * @return array<string, int>

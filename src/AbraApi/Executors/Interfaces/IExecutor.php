@@ -12,4 +12,5 @@ interface IExecutor
 	 * @return array<mixed>
 	 */
 	public function execute(QueryServant $queryServant): array;
+
 }

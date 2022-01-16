@@ -10,8 +10,10 @@ class PutCaller extends CurlCaller implements Interfaces\ICaller
 		$this->abraApi = $abraApi;
 	}
 
+
 	public function call(string $url, string $body, array $optHeaders = []): array
 	{
 		return $this->callCurl(self::QUERY_PUT, $url, $body, $optHeaders);
 	}
+
 }

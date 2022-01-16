@@ -7,8 +7,10 @@ final class InputDocumentsCommand implements Interfaces\ICommandQueryBuilder
 
 	public const DOCUMENTS_SELECTOR = "input_documents";
 
+
 	/** @var array<mixed> */
 	private array $inputDocuments = [];
+
 
 	/**
 	 * @param array<mixed> $inputDocuments
@@ -18,6 +20,7 @@ final class InputDocumentsCommand implements Interfaces\ICommandQueryBuilder
 		$this->validateInputDocuments($inputDocuments);
 		$this->inputDocuments = $inputDocuments;
 	}
+
 
     /**
      * @return array<mixed>
@@ -29,6 +32,7 @@ final class InputDocumentsCommand implements Interfaces\ICommandQueryBuilder
 
         return [self::DOCUMENTS_SELECTOR => $this->inputDocuments];
     }
+
 
 	/**
 	 * @param array<mixed> $inputDocuments

@@ -45,6 +45,7 @@ class QueryServant
 		Commands\OutputDocumentCommand::class,
 	];
 
+
     /**
      * Gets whole query
      * @return array<\AbraApi\Commands\Interfaces\ICommandQueryBuilder>
@@ -68,6 +69,7 @@ class QueryServant
         return $properOrderedQuery;
     }
 
+
     /**
      * Return true if a query has specific command (instance of ..)
      * @param mixed $command
@@ -80,6 +82,7 @@ class QueryServant
         }
         return false;
     }
+
 
     /**
      * Returns specific command from query, if it is not there, returns null
@@ -95,6 +98,7 @@ class QueryServant
         return null;
     }
 
+
     /**
      * Adds class command to query
      */
@@ -103,6 +107,7 @@ class QueryServant
         $this->addQuery(new Commands\ClassCommand($className));
         return $this;
     }
+
 
     /**
      * Adds select command to query, parameters are optional
@@ -114,6 +119,7 @@ class QueryServant
         return $this;
     }
 
+
     /**
      * Adds condition to query, uses question mark for prepared, escaped statements
      * @param string|int|float|bool|array<mixed> ...$parameters
@@ -123,6 +129,7 @@ class QueryServant
         $this->addQuery(new Commands\WhereCommand($query, ...$parameters));
         return $this;
     }
+
 
     /**
      * Adds condition for ID of row, accepts only one parameter, can be array
@@ -138,6 +145,7 @@ class QueryServant
         return $this->where("id in (?)", $ids);
     }
 
+
     /**
      * Adds expression query
      * @param mixed ...$parameters
@@ -147,6 +155,7 @@ class QueryServant
         $this->addQuery(new Commands\ExprCommand($expression, ...$parameters));
         return $this;
     }
+
 
     /**
      * Expands query (creates subselect)
@@ -164,6 +173,7 @@ class QueryServant
         return $expandCommand;
     }
 
+
     /**
      * Limit of selected rows
      */
@@ -173,6 +183,7 @@ class QueryServant
         return $this;
     }
 
+
     /**
      * Specific amount of rows to be skipped (for pagination for example)
      */
@@ -181,6 +192,7 @@ class QueryServant
         $this->addQuery(new Commands\SkipCommand($skip));
         return $this;
     }
+
 
     /**
      * Orders selected rows by specified data structure
@@ -192,6 +204,7 @@ class QueryServant
         return $this;
     }
 
+
     /**
      * Group by command
      * @param mixed ...$groupBy
@@ -201,6 +214,7 @@ class QueryServant
         $this->addQuery(new Commands\GroupByCommand(...$groupBy));
         return $this;
     }
+
 
     /**
      * Defines, what data are supposed to be updated/inserted
@@ -212,6 +226,7 @@ class QueryServant
         return $this;
     }
 
+
     /**
      * Specifies fulltext search
      */
@@ -220,6 +235,7 @@ class QueryServant
         $this->addQuery(new Commands\FulltextCommand($fulltext));
         return $this;
     }
+
 
     /**
      * Specifies params (import query)
@@ -231,6 +247,7 @@ class QueryServant
         return $this;
     }
 
+
     /**
      * Specifies input documnets for import query
      * @param array<string> $documents
@@ -241,6 +258,7 @@ class QueryServant
         return $this;
     }
 
+
     /**
      * Specifies output document data to update, for import query
      * @param array<string, string>|string ...$data
@@ -250,6 +268,7 @@ class QueryServant
         $this->addQuery(new Commands\OutputDocumentCommand(...$data));
         return $this;
     }
+
 
 	/**
 	 * Adds a query

@@ -5,17 +5,24 @@ namespace AbraApi\CommandBuilders;
 
 class ImportQuery extends Query
 {
+
 	private \AbraApi\Callers\ImportQueryResultGetter $resultGetter;
+
 	private QueryServant $queryServant;
+
 	private ?string $fromBussinessObject = NULL;
+
 	private ?string $intoBussinessObject = NULL;
+
 	private ?string $intoDocumentId = NULL;
+
 
 	public function __construct(\AbraApi\Callers\ImportQueryResultGetter $resultGetter)
 	{
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
 	}
+
 
 	/**
 	 * What columns should result return
@@ -28,6 +35,7 @@ class ImportQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * Specifies from what bussiness object are we importing
 	 * @param array<string> $documentIds
@@ -38,6 +46,7 @@ class ImportQuery extends Query
 		$this->inputDocuments($documentIds);
 		return $this;
 	}
+
 
     /**
      * Specifies into what bussiness object are importing
@@ -52,6 +61,7 @@ class ImportQuery extends Query
         return $this;
     }
 
+
     /**
      * Specifies data to be set when new imported document is saved
      * @param array<string, string>|string ...$data
@@ -61,6 +71,7 @@ class ImportQuery extends Query
         $this->queryServant->outputDocumentData(...$data);
         return $this;
     }
+
 
     /**
      * Specify import parameters (docqueue_id, ...)
@@ -72,6 +83,7 @@ class ImportQuery extends Query
         return $this;
     }
 
+
     /**
      * Executes query and returns result of imported document
      * If you don´t specify ->select(..), it returns only ID
@@ -79,15 +91,20 @@ class ImportQuery extends Query
     public function execute(): \AbraApi\Results\Interfaces\IImportResult
     {
         if ($this->fromBussinessObject === null || $this->intoBussinessObject === null)
-            throw new \Exception('You must specify ->from(string $bussinessObject, array $documentIds) and ->into(string $bussinessObject, ?string $documentId) to execute import query.');
+            throw new \Exception(
+                'You must specify ->from(string $bussinessObject, array $documentIds) and ->into(string $bussinessObject, ?string $documentId) to execute import query.'
+            );
         if (($this->isClsid($this->fromBussinessObject) ^ $this->isClsid($this->intoBussinessObject)))
-            throw new \Exception("You must specify both left and right importing manager bussiness objects either by ClsID or by API Bussiness object name.");
+            throw new \Exception(
+                "You must specify both left and right importing manager bussiness objects either by ClsID or by API Bussiness object name."
+            );
         $resultGetter = $this->resultGetter;
         if ($this->intoDocumentId !== null && !$this->isClsid($this->fromBussinessObject)) {
             $resultGetter->usePutMethod();
         }
         return $this->resultGetter->getResult($this->getApiEndpoint(), $this->getQuery());
     }
+
 
     /**
      * Creates endpoint for query
@@ -101,6 +118,7 @@ class ImportQuery extends Query
             $this->fromBussinessObject .
             "?" . QueryHelpers::createSelectUri($this->queryServant);
     }
+
 
     /**
      * Merges all data commands and return it as JSON object
@@ -128,6 +146,7 @@ class ImportQuery extends Query
         return $query;
     }
 
+
 	/**
 	 * Specifies documents ID´s to be imported into target BO
 	 * @param array<string> $documents
@@ -137,6 +156,7 @@ class ImportQuery extends Query
 		$this->queryServant->inputDocuments($documents);
 		return $this;
 	}
+
 
 	/**
 	 * Returns, if string in parameter is CLSID

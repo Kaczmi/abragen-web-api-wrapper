@@ -7,7 +7,9 @@ class WhereCommand implements Interfaces\ICommandQueryBuilder
 
 	public const CLASS_SELECTOR = "where";
 
+
 	private string $condition;
+
 
 	/**
 	 * @param string $query
@@ -17,6 +19,7 @@ class WhereCommand implements Interfaces\ICommandQueryBuilder
 	{
 		$this->processCondition($query, $params);
 	}
+
 
 	/**
 	 * @param array<mixed> $params
@@ -52,6 +55,7 @@ class WhereCommand implements Interfaces\ICommandQueryBuilder
 		}
 	}
 
+
     /**
      * @return array<string, string>
      */
@@ -62,10 +66,12 @@ class WhereCommand implements Interfaces\ICommandQueryBuilder
         ];
     }
 
+
     public function getExpression(): string
     {
         return self::CLASS_SELECTOR;
     }
+
 
 	/**
 	 * @param mixed $value
@@ -87,6 +93,7 @@ class WhereCommand implements Interfaces\ICommandQueryBuilder
 		return "'" . $this->escapeConditionString($value) . "'";
 	}
 
+
 	/**
 	 * Returns an escaped condition string
 	 */
@@ -94,6 +101,7 @@ class WhereCommand implements Interfaces\ICommandQueryBuilder
 	{
 		return $value;
 	}
+
 
 	/**
 	 * Function for replacing string

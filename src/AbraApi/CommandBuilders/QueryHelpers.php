@@ -14,7 +14,9 @@ class QueryHelpers
 	public static function createSelectUri(QueryServant $queryServant): string
 	{
 		if ($queryServant->hasCommand(\AbraApi\Commands\SelectCommand::class)) {
-			$selects = $queryServant->getQueryCommand(\AbraApi\Commands\SelectCommand::class)->getCommand()[\AbraApi\Commands\SelectCommand::CLASS_SELECTOR];
+			$selects = $queryServant->getQueryCommand(
+                \AbraApi\Commands\SelectCommand::class
+            )->getCommand()[\AbraApi\Commands\SelectCommand::CLASS_SELECTOR];
 			$selectQuery = [];
 			foreach ($selects as $select) {
 				if (\is_array($select))
@@ -30,6 +32,7 @@ class QueryHelpers
 		}
 	}
 
+
 	/**
 	 * Merges only data commands
 	 * @return array<mixed>
@@ -38,6 +41,7 @@ class QueryHelpers
 	{
 		return static::mergeCommands($queryServant, [\AbraApi\Commands\DataCommand::class]);
 	}
+
 
 	/**
 	 * Merges all commands specified in $commandsToMerge (expected array of classes instanceof ICommandQueryBuilder)
@@ -51,7 +55,10 @@ class QueryHelpers
 		$mergedCommand = [];
 		foreach ($commandsToMerge as $commandToMerge) {
 			foreach ($query as $command) {
-				if ($command instanceof $commandToMerge && $command instanceof \AbraApi\Commands\Interfaces\ICommandQueryBuilder)
+				if (
+                    $command instanceof $commandToMerge
+                    && $command instanceof \AbraApi\Commands\Interfaces\ICommandQueryBuilder
+                )
 					$mergedCommand = \array_merge_recursive($command->getCommand(), $mergedCommand);
 			}
 		}

@@ -33,6 +33,7 @@ class AbraApi
 	 */
 	private $password;
 
+
 	public function __construct(string $host, string $database, string $userName, string $password)
 	{
 		$this->host = $host;
@@ -40,6 +41,7 @@ class AbraApi
 		$this->userName = $userName;
 		$this->password = $password;
 	}
+
 
 	/**
 	 * Začne vytvářet GET požadavek - pro získání dat
@@ -49,13 +51,18 @@ class AbraApi
 		return (new CommandBuilders\GetQuery(new Executors\JsonExecutor(), new Callers\GetQueryResultGetter(new Callers\PostCaller($this))));
 	}
 
+
 	/**
 	 * Vrátí obsah dokumentu z daného BO podle vybraného reportu
 	 */
 	public function getDocument(): CommandBuilders\GetDocumentQuery
 	{
-		return (new CommandBuilders\GetDocumentQuery(new Executors\JsonExecutor(), new Callers\GetDocumentResultGetter(new Callers\PostCaller($this))));
+		return (new CommandBuilders\GetDocumentQuery(
+            new Executors\JsonExecutor(),
+            new Callers\GetDocumentResultGetter(new Callers\PostCaller($this))
+        ));
 	}
+
 
 	/**
 	 * Returns new UpdateQuery command builder
@@ -65,6 +72,7 @@ class AbraApi
 		return (new CommandBuilders\UpdateQuery(new Callers\UpdateQueryResultGetter(new Callers\PutCaller($this))));
 	}
 
+
 	/**
 	 * Returns new QrExpr command builder
 	 */
@@ -72,6 +80,7 @@ class AbraApi
 	{
 		return (new CommandBuilders\QrQuery(new Executors\JsonExecutor(), new Callers\QrFunctionsResultGetter(new Callers\PostCaller($this))));
 	}
+
 
 	/**
 	 * Return new InsertQuery command builder
@@ -81,6 +90,7 @@ class AbraApi
 		return (new CommandBuilders\InsertQuery(new Callers\InsertQueryResultGetter(new Callers\PostCaller($this))));
 	}
 
+
 	/**
 	 * Return new DeleteQuery command builder
 	 */
@@ -88,6 +98,7 @@ class AbraApi
 	{
 		return (new CommandBuilders\DeleteQuery(new Callers\DeleteQueryResultGetter(new Callers\DeleteCaller($this))));
 	}
+
 
 	/**
 	 * Return new ImportQuery command builder
@@ -97,6 +108,7 @@ class AbraApi
 		return (new CommandBuilders\ImportQuery(new Callers\ImportQueryResultGetter($this)));
 	}
 
+
 	/**
 	 * Vrátí URL adresu, na kterou se má Caller dotázat
 	 */
@@ -105,6 +117,7 @@ class AbraApi
 		return $this->host . "/" . $this->database . "/";
 	}
 
+
 	/**
 	 * Vrátí base64 zakódované přihlašovací údaje
 	 */
@@ -112,4 +125,5 @@ class AbraApi
 	{
 		return \base64_encode($this->userName . ":" . $this->password);
 	}
+
 }

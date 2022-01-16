@@ -11,7 +11,9 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 {
 
 	private Callers\GetQueryResultGetter $resultGetter;
+
 	private QueryServant $queryServant;
+
 
 	public function __construct(IExecutor $executor, Callers\GetQueryResultGetter $resultGetter)
 	{
@@ -19,6 +21,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
 	}
+
 
 	/**
 	 * Defines, what BO are we quering into
@@ -29,6 +32,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		return $this;
 	}
 
+
 	/**
 	 * Fulltext search
 	 */
@@ -37,6 +41,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		$this->queryServant->fulltext($fulltext);
 		return $this;
 	}
+
 
 	/**
 	 * What columns must query return
@@ -48,6 +53,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		return $this;
 	}
 
+
 	/**
 	 * Condition
 	 * @param string|int|float|bool|array<mixed> ...$parameters
@@ -57,6 +63,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		$this->queryServant->where($query, ...$parameters);
 		return $this;
 	}
+
 
 	/**
 	 * Condition, specific for ID
@@ -68,6 +75,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		return $this;
 	}
 
+
 	/**
 	 * Creates subselect
 	 */
@@ -75,6 +83,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 	{
 		return $this->queryServant->expand($name, $value, $this->executor, $this);
 	}
+
 
 	/**
 	 * Limit of rows to be selected
@@ -85,6 +94,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		return $this;
 	}
 
+
 	/**
 	 * Amount of skipped rows
 	 */
@@ -93,6 +103,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		$this->queryServant->skip($skip);
 		return $this;
 	}
+
 
 	/**
 	 * Creates subselect
@@ -104,6 +115,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		return $this;
 	}
 
+
 	/**
 	 * Creates groupby aggregation
 	 * @param mixed ...$groupBy
@@ -114,6 +126,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		return $this;
 	}
 
+
 	/**
 	 * Executes query and returns data result
 	 */
@@ -121,6 +134,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 	{
 		return $this->resultGetter->getResult("query", $this->getQuery());
 	}
+
 
 	/**
 	 * Returns query as a string to be send to AbraApiWorker
@@ -137,6 +151,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		return $query;
 	}
 
+
 	/**
 	 * Fetches first row returned by Abra
 	 */
@@ -144,6 +159,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 	{
 		return $this->execute()->fetch();
 	}
+
 
 	/**
 	 * Fetches specific field in first row returned by Abra
@@ -154,6 +170,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 		return $this->execute()->fetchField($field);
 	}
 
+
 	/**
 	 * Fetches all rows returned by Abra as JSON object
 	 * @return array<\stdClass>
@@ -162,6 +179,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 	{
 		return $this->execute()->fetchAll();
 	}
+
 
 	/**
 	 * Returns specific field ($field) as flat array ([1, 2, 3, ...])

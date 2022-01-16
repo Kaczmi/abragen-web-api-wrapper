@@ -15,6 +15,7 @@ abstract class AbstractAbraApiResult
 	 */
 	protected $content = NULL;
 
+
     public function getHeader(string $key): ?string
     {
         if (isset($this->abraResultHeaders[\strtolower($key)])) return $this->abraResultHeaders[\strtolower($key)];
@@ -22,10 +23,12 @@ abstract class AbstractAbraApiResult
         return NULL;
     }
 
+
     public function getHttpCode(): int
     {
         return $this->httpCode;
     }
+
 
     /**
      * @return array<mixed>
@@ -34,6 +37,7 @@ abstract class AbstractAbraApiResult
     {
         return $this->abraResultHeaders;
     }
+
 
 	/**
 	 * @param array<mixed> $headers
@@ -44,6 +48,7 @@ abstract class AbstractAbraApiResult
 			$this->abraResultHeaders[$headerKey] = $headerValue;
 		}
 	}
+
 
 	protected function setHttpCode(int $httpCode): void
 	{

@@ -7,10 +7,12 @@ class GroupByCommand implements Interfaces\ICommandQueryBuilder
 
 	public const ORDERBY_SELECTOR = "groupby";
 
+
 	/**
 	 * @var array<string> $groupBy
 	 */
 	private array $groupBy = [];
+
 
 	/**
 	 * @param mixed ...$groupBy
@@ -19,6 +21,7 @@ class GroupByCommand implements Interfaces\ICommandQueryBuilder
 	{
 		$this->processGroupBy($groupBy);
 	}
+
 
 	/**
 	 * @param array<mixed> ...$groupBy
@@ -31,6 +34,7 @@ class GroupByCommand implements Interfaces\ICommandQueryBuilder
 			$this->groupBy[] = $groupColumn;
 		}
 	}
+
 
 	/**
 	 * @return array<string, array<string>>

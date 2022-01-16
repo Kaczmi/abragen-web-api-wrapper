@@ -7,10 +7,12 @@ class SelectCommand implements Interfaces\ICommandQueryBuilder
 
 	const CLASS_SELECTOR = "select";
 
+
 	/**
 	 * @var array<mixed>
 	 */
 	private array $selects;
+
 
 	/**
 	 * SelectCommand constructor.
@@ -20,6 +22,7 @@ class SelectCommand implements Interfaces\ICommandQueryBuilder
 	{
 		$this->processSelects($selects);
 	}
+
 
 	/**
 	 * @param array<mixed> $selects
@@ -42,6 +45,7 @@ class SelectCommand implements Interfaces\ICommandQueryBuilder
 			}
 		}
 	}
+
 
 	/**
 	 * @return array<string, array<mixed>>

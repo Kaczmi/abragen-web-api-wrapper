@@ -18,6 +18,7 @@ final class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Int
 		$this->setHttpCode($httpCode);
 	}
 
+
     public function getResult()
     {
         if (!isset($this->content->result)) {
@@ -26,6 +27,7 @@ final class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Int
 
         return $this->content->result;
     }
+
 
 	private function parseResult(string $result): void
 	{

@@ -21,6 +21,7 @@ final class AbraApiInsertResult extends AbstractAbraApiResult implements Interfa
 		$this->setHttpCode($httpCode);
 	}
 
+
     public function getInsertedId(): string
     {
         if (!isset($this->content->id)) {
@@ -30,6 +31,7 @@ final class AbraApiInsertResult extends AbstractAbraApiResult implements Interfa
         return $this->content->id;
     }
 
+
     /**
      * @return \stdClass
      */
@@ -37,6 +39,7 @@ final class AbraApiInsertResult extends AbstractAbraApiResult implements Interfa
     {
         return $this->content;
     }
+
 
 	private function parseResult(string $result): void
 	{

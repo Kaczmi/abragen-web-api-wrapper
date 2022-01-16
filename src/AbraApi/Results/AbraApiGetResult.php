@@ -4,10 +4,12 @@ namespace AbraApi\Results;
 
 final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces\IDataResult
 {
+
 	/** @var array<\stdClass> */
 	private array $abraResultRows;
 
 	private int $fetchCount = 0;
+
 
 	/**
 	 * @param array<mixed> $headers
@@ -22,6 +24,7 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
 		$this->setHttpCode($httpCode);
 	}
 
+
     /**
      * Returns one specific column from result
      */
@@ -32,6 +35,7 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
 
         return NULL;
     }
+
 
     /**
      * Fetches single row or returns null
@@ -45,6 +49,7 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
         return NULL;
     }
 
+
     /**
      * Get´s full response returned by API
      */
@@ -52,6 +57,7 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
     {
         return $this->abraResultRows;
     }
+
 
     /**
      * Returns flat array of specific field
@@ -66,10 +72,10 @@ final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces
         return $rtnArray;
     }
 
+
 	private function parseResult(string $result): void
 	{
 		$this->content = $this->abraResultRows = \json_decode($result);
 	}
-
 
 }

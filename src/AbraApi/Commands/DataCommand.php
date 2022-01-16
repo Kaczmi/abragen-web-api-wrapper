@@ -12,6 +12,7 @@ class DataCommand implements Interfaces\ICommandQueryBuilder, Interfaces\IMultip
 	 */
 	private array $data = [];
 
+
 	/**
 	 * @param mixed ...$data
 	 */
@@ -19,6 +20,7 @@ class DataCommand implements Interfaces\ICommandQueryBuilder, Interfaces\IMultip
 	{
 		$this->data = DataQueryHelper::processDataCommand($data);
 	}
+
 
 	/**
 	 * @return array<mixed>

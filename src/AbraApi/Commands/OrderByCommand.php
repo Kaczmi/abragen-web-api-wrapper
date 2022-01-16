@@ -7,10 +7,12 @@ class OrderByCommand implements Interfaces\ICommandQueryBuilder
 
 	public const CLASS_SELECTOR = "orderby";
 
+
 	/**
 	 * @var array<array<string, bool|string>>
 	 */
 	private array $orderBy;
+
 
 	/**
 	 * @param mixed ...$orderBy
@@ -19,6 +21,7 @@ class OrderByCommand implements Interfaces\ICommandQueryBuilder
 	{
 		$this->processOrderBy($orderBy);
 	}
+
 
 	/**
 	 * @param array<mixed> $orderBy
@@ -43,6 +46,7 @@ class OrderByCommand implements Interfaces\ICommandQueryBuilder
 		}
 	}
 
+
     /**
      * @return array<string, array<array<string, bool|string>>>
      */
@@ -52,6 +56,7 @@ class OrderByCommand implements Interfaces\ICommandQueryBuilder
         $classCommand[self::CLASS_SELECTOR] = $this->orderBy;
         return $classCommand;
     }
+
 
 	/**
 	 * @param mixed $column

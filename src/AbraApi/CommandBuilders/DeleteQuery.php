@@ -7,15 +7,20 @@ class DeleteQuery extends Query
 {
 
 	private \AbraApi\Callers\DeleteQueryResultGetter $resultGetter;
+
 	private QueryServant $queryServant;
+
 	private ?string $boId = null;
+
 	private ?string $source = null;
+
 
 	public function __construct(\AbraApi\Callers\DeleteQueryResultGetter $resultGetter)
 	{
 		$this->resultGetter = $resultGetter;
 		$this->queryServant = new QueryServant;
 	}
+
 
 	/**
 	 * When you need to specify source to be deleted and you can´t use default simple usage
@@ -26,6 +31,7 @@ class DeleteQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * Defines, what BO are we quering into
 	 */
@@ -34,6 +40,7 @@ class DeleteQuery extends Query
 		$this->queryServant->class($class);
 		return $this;
 	}
+
 
 	/**
 	 * Which rows are supposed to be deleted
@@ -45,6 +52,7 @@ class DeleteQuery extends Query
 		return $this;
 	}
 
+
 	/**
 	 * Executes query and returns deletes data in abra
 	 * Query uses DELETE method
@@ -53,6 +61,7 @@ class DeleteQuery extends Query
 	{
 		return $this->resultGetter->getResult($this->getApiEndpoint(), "", []);
 	}
+
 
 	/**
 	 * Get´s endpoint for query

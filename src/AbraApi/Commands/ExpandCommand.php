@@ -11,10 +11,15 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 {
 
 	private IExpandQuery $parentQuery;
+
 	private string $name;
+
 	private string $value;
+
 	private QueryServant $queryServant;
+
 	private IExecutor $executor;
+
 
 	/**
 	 * Every command which support expand command must implement IExpandQuery to support submerged queries
@@ -28,6 +33,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		$this->queryServant = new QueryServant;
 	}
 
+
 	/**
 	 * Defines, what BO are we quering into
 	 */
@@ -37,6 +43,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		return $this;
 	}
 
+
 	/**
 	 * Fulltext search
 	 */
@@ -45,6 +52,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		$this->queryServant->fulltext($fulltext);
 		return $this;
 	}
+
 
 	/**
 	 * What columns must query return
@@ -56,6 +64,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		return $this;
 	}
 
+
 	/**
 	 * Condition for expanded command
 	 * @param string|int|float|bool|array<mixed> ...$parameters
@@ -66,6 +75,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		return $this;
 	}
 
+
 	/**
 	 * Limit of selected rows
 	 */
@@ -75,6 +85,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		return $this;
 	}
 
+
 	/**
 	 * Amount of skipped rows
 	 */
@@ -83,6 +94,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		$this->queryServant->skip($skip);
 		return $this;
 	}
+
 
 	/**
 	 * Orders selected rows by specified data structure
@@ -94,6 +106,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		return $this;
 	}
 
+
 	/**
 	 * Creates subselect
 	 */
@@ -101,6 +114,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 	{
 		return $this->queryServant->expand($name, $value, $this->executor, $this);
 	}
+
 
 	/**
 	 * Creates groupby aggregation
@@ -112,6 +126,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		return $this;
 	}
 
+
 	/**
 	 * Ends expand query and jumps on to parent query
 	 */
@@ -119,6 +134,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 	{
 		return $this->parentQuery;
 	}
+
 
 	/**
 	 * @return array<mixed>
@@ -136,6 +152,7 @@ class ExpandCommand implements Interfaces\ICommandQueryBuilder, IExpandQuery, In
 		}
 		return $expandCommand;
 	}
+
 
 	/**
 	 * @return array<mixed>

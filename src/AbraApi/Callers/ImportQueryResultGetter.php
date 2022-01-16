@@ -6,15 +6,19 @@ use AbraApi\Results;
 
 class ImportQueryResultGetter implements Interfaces\IResultGetter
 {
+
 	/** @var \AbraApi\AbraApi */
 	private $abraApi;
+
 	/** @var bool */
 	private $usePutMethod = false;
+
 
 	public function __construct(\AbraApi\AbraApi $abraApi)
 	{
 		$this->abraApi = $abraApi;
 	}
+
 
 	public function getCaller(): Interfaces\ICaller
 	{
@@ -22,6 +26,7 @@ class ImportQueryResultGetter implements Interfaces\IResultGetter
 			return (new PutCaller($this->abraApi));
 		return (new PostCaller($this->abraApi));
 	}
+
 
 	/**
 	 * Use PUT method to create query
@@ -31,10 +36,12 @@ class ImportQueryResultGetter implements Interfaces\IResultGetter
 		$this->usePutMethod = true;
 	}
 
+
 	public function getResult($url, $body, $optHeaders = array()): Results\AbraApiImportResult
 	{
 		$caller = $this->getCaller();
 		$resultPlainData = $caller->call($url, $body, $optHeaders);
 		return (new Results\AbraApiImportResult($resultPlainData["content"], $resultPlainData["headers"], $resultPlainData["httpcode"]));
 	}
+
 }

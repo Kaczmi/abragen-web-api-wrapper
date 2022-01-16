@@ -7,12 +7,15 @@ class LimitCommand implements Interfaces\ICommandQueryBuilder
 
 	public const CLASS_SELECTOR = "take";
 
+
 	private int $limit;
+
 
 	public function __construct(int $limit)
 	{
 		$this->limit = $limit;
 	}
+
 
 	/**
 	 * @return array<string, int>

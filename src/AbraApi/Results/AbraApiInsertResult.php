@@ -1,25 +1,49 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results;
+namespace AbraApi\Results;
 
-	class AbraApiInsertResult extends AbstractAbraApiResult implements Interfaces\IInsertResult {
+/**
+ * @property \stdClass $content
+ */
+final class AbraApiInsertResult extends AbstractAbraApiResult implements Interfaces\IInsertResult
+{
 
-		public function __construct($result, $headers, $httpCode) {
-			$this->parseResult($result);
-			$this->parseHeaders($headers);			
-			$this->setHttpCode($httpCode);
-		}
-
-		private function parseResult($result) {
-			$this->content = json_decode($result);
-		}
-
-		public function getInsertedId(): string {
-			return $this->content->id;
-		}
-
-		public function getResult() {
-			return $this->content;
-		}
-
+	/**
+	 * @param array<mixed> $headers
+	 *
+	 * @throws \AbraApi\Results\BadRequestException
+	 * @throws \AbraApi\Results\NoResponseException
+	 */
+	public function __construct(string $result, array $headers, int $httpCode)
+	{
+		$this->parseResult($result);
+		$this->parseHeaders($headers);
+		$this->setHttpCode($httpCode);
 	}
+
+
+    public function getInsertedId(): string
+    {
+        if (!isset($this->content->id)) {
+            throw new \AbraApi\Results\BadResultException('Insert query did not return ID');
+        }
+
+        return $this->content->id;
+    }
+
+
+    /**
+     * @return \stdClass
+     */
+    public function getResult()
+    {
+        return $this->content;
+    }
+
+
+	private function parseResult(string $result): void
+	{
+		$this->content = \json_decode($result);
+	}
+
+}

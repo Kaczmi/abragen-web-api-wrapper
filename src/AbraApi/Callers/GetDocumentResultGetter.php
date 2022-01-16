@@ -1,19 +1,32 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Callers;
+namespace AbraApi\Callers;
 
-	use AbraApi\Results;
+use AbraApi\Results;
 
-	class GetDocumentResultGetter implements Interfaces\IResultGetter {
+final class GetDocumentResultGetter implements Interfaces\IResultGetter
+{
 
-		private $caller;
+	private \AbraApi\Callers\Interfaces\ICaller $caller;
 
-		public function __construct(Interfaces\ICaller $caller) {
-			$this->caller = $caller;
-		}
 
-		public function getResult($url, $body, $optHeaders = array()) {
-			$resultPlainData = $this->caller->call($url, $body, $optHeaders);
-			return (new Results\AbraApiDocumentResult($resultPlainData["content"], $resultPlainData["headers"], $resultPlainData["httpcode"]));
-		}
+	public function __construct(Interfaces\ICaller $caller)
+	{
+		$this->caller = $caller;
 	}
+
+
+	/**
+	 * @param array<mixed> $optHeaders
+	 *
+	 * @throws \AbraApi\Results\BadRequestException
+	 * @throws \AbraApi\Results\NoResponseException
+	 */
+	public function getResult(string $url, string $body, array $optHeaders = []): Results\Interfaces\IDocumentResult
+	{
+		$resultPlainData = $this->caller->call($url, $body, $optHeaders);
+
+		return (new Results\AbraApiDocumentResult($resultPlainData["content"], $resultPlainData["headers"], $resultPlainData["httpcode"]));
+	}
+
+}

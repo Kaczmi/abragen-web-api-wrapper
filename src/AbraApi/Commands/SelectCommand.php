@@ -1,45 +1,60 @@
-<?php 
+<?php declare(strict_types=1);
 
-	declare(strict_types = 1);
+namespace AbraApi\Commands;
 
-	namespace AbraApi\Commands;
+class SelectCommand implements Interfaces\ICommandQueryBuilder
+{
 
-	class SelectCommand implements Interfaces\ICommandQueryBuilder {
+	const CLASS_SELECTOR = "select";
 
-		const CLASS_SELECTOR = "select";
 
-		private $className;
+	/**
+	 * @var array<mixed>
+	 */
+	private array $selects;
 
-		private $selects;
 
-		public function __construct($selects) {
-			$this->processSelects($selects);
-		}
+	/**
+	 * SelectCommand constructor.
+	 * @param array<mixed> $selects
+	 */
+	public function __construct(array $selects)
+	{
+		$this->processSelects($selects);
+	}
 
-		public function processSelects($selects) {
-			foreach($selects as $select) {
-				if(is_array($select)) {
-					foreach($select as $name => $value) {
-						if(!is_int($name)) {
-							$selectQuery["name"] = $name;
-							$selectQuery["value"] = $value;
-							$this->selects[] = $selectQuery;
-						}
-						else {
-							$this->selects[] = $value;
-						}
+
+	/**
+	 * @param array<mixed> $selects
+	 */
+	public function processSelects(array $selects): void
+	{
+		foreach ($selects as $select) {
+			if (\is_array($select)) {
+				foreach ($select as $name => $value) {
+					if (!\is_int($name)) {
+						$selectQuery["name"] = $name;
+						$selectQuery["value"] = $value;
+						$this->selects[] = $selectQuery;
+					} else {
+						$this->selects[] = $value;
 					}
 				}
-				else {
-					$this->selects[] = $select;
-				}
+			} else {
+				$this->selects[] = $select;
 			}
 		}
-
-		public function getCommand() {
-			$classCommand = [];
-			$classCommand[self::CLASS_SELECTOR] = $this->selects;
-			return $classCommand;
-		}
-
 	}
+
+
+	/**
+	 * @return array<string, array<mixed>>
+	 */
+	public function getCommand(): array
+	{
+		$classCommand = [];
+		$classCommand[self::CLASS_SELECTOR] = $this->selects;
+		return $classCommand;
+	}
+
+}

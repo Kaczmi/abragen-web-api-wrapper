@@ -1,6 +1,5 @@
 <?php
 
-use Tester\Assert;
 use AbraApi\AbraApi;
 
 require __DIR__ . '/../vendor/autoload.php'; 

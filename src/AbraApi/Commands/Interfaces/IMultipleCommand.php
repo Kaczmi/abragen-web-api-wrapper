@@ -1,10 +1,11 @@
-<?php 
+<?php
 
-	namespace AbraApi\Commands\Interfaces;
+namespace AbraApi\Commands\Interfaces;
 
-	/**
-	 * Interface that specifies, if command can be specified multiple times in query
-	 */
-	interface IMultipleCommand {
-		
-	}
+/**
+ * Interface that specifies, if command can be specified multiple times in query
+ */
+interface IMultipleCommand
+{
+
+}

@@ -1,25 +1,46 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results;
+namespace AbraApi\Results;
 
-	class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfaces\IUpdateResult {
+/**
+ * @property \stdClass $content
+ */
+final class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfaces\IUpdateResult
+{
 
-		public function __construct($result, $headers, $httpCode) {
-			$this->parseResult($result);
-			$this->parseHeaders($headers);			
-			$this->setHttpCode($httpCode);
-		}
-
-		private function parseResult($result) {
-			$this->content = json_decode($result);
-		}
-
-		public function getUpdatedId() {
-			return $this->content->id;
-		}
-
-		public function getResult() {
-			return $this->content;
-		}
-
+	/**
+	 * @param array<mixed> $headers
+	 *
+	 * @throws \AbraApi\Results\BadRequestException
+	 * @throws \AbraApi\Results\NoResponseException
+	 */
+	public function __construct(string $result, array $headers, int $httpCode)
+	{
+		$this->parseResult($result);
+		$this->parseHeaders($headers);
+		$this->setHttpCode($httpCode);
 	}
+
+
+    public function getUpdatedId(): string
+    {
+        if (!isset($this->content->id)) {
+            throw new \AbraApi\Results\BadResultException('Update query did not return ID');
+        }
+
+        return $this->content->id;
+    }
+
+
+    public function getResult(): \stdClass
+    {
+        return $this->content;
+    }
+
+
+	private function parseResult(string $result): void
+	{
+		$this->content = \json_decode($result);
+	}
+
+}

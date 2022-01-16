@@ -1,0 +1,20 @@
+name: PHPStan
+
+on: [push]
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+      - name: Composer
+        run: composer install --no-progress --prefer-dist
+      - name: PHPStan
+        run: ./vendor/bin/phpstan analyse --level 7 src
+        shell: bash

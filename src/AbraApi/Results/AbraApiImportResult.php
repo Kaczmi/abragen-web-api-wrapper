@@ -1,25 +1,47 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results;
+namespace AbraApi\Results;
 
-	class AbraApiImportResult extends AbstractAbraApiResult implements Interfaces\IImportResult {
+final class AbraApiImportResult extends AbstractAbraApiResult implements Interfaces\IImportResult
+{
 
-		public function __construct($result, $headers, $httpCode) {
-			$this->parseResult($result);
-			$this->parseHeaders($headers);			
-			$this->setHttpCode($httpCode);
-		}
-
-		private function parseResult($result) {
-			$this->content = json_decode($result);
-		}
-
-		public function getId(): string {
-			return $this->content->id;
-		}
-
-		public function getResult() {
-			return $this->content;
-		}
-
+	/**
+	 * @param array<mixed> $headers
+	 *
+	 * @throws \AbraApi\Results\BadRequestException
+	 * @throws \AbraApi\Results\NoResponseException
+	 */
+	public function __construct(string $result, array $headers, int $httpCode)
+	{
+		$this->parseResult($result);
+		$this->parseHeaders($headers);
+		$this->setHttpCode($httpCode);
 	}
+
+
+    public function getId(): string
+    {
+        if (!isset($this->content->id)) {
+            throw new \Exception('Error - ID not found');
+        }
+
+        return $this->content->id;
+    }
+
+
+    public function getResult()
+    {
+        if($this->content === NULL) {
+            throw new \Exception('Import result is NULL');
+        }
+
+        return $this->content;
+    }
+
+
+	private function parseResult(string $result): void
+	{
+		$this->content = \json_decode($result);
+	}
+
+}

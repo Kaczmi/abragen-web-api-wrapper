@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results\Interfaces;
+namespace AbraApi\Results\Interfaces;
 
-	interface IDocumentResult {
+interface IDocumentResult extends IResult
+{
 
-		public function getContent();
+	public function getContent(): string;
 
-	}
+}

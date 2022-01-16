@@ -1,59 +1,81 @@
-<?php 
+<?php declare(strict_types=1);
 
-	namespace AbraApi\Results;
+namespace AbraApi\Results;
 
-	class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces\IDataResult {
+final class AbraApiGetResult extends AbstractAbraApiResult implements Interfaces\IDataResult
+{
 
-		private $abraResultRows;
+	/** @var array<\stdClass> */
+	private array $abraResultRows;
 
-		private $fetchCount = 0;
-
-		public function __construct($result, $headers, $httpCode) {
-			$this->parseResult($result);
-			$this->parseHeaders($headers);			
-			$this->setHttpCode($httpCode);
-		}
-
-		private function parseResult($result) {
-			$this->content = $this->abraResultRows = json_decode($result);
-		}
-
-		/**
-		 * Returns one specific column from result
-		 */
-		public function fetchField($field) {
-			$row = $this->fetch();
-			if(isset($row->$field)) return $row->$field;
-			return null;
-		}
-
-		/**
-		 * Fetches single row or returns null
-		 */
-		public function fetch() {
-			if(count($this->abraResultRows) > $this->fetchCount) {
-				return $this->abraResultRows[$this->fetchCount++];
-			}
-			return null;
-		}
-
-		/**
-		 * Get´s full response returned by API
-		 */
-		public function fetchAll() {
-			return $this->abraResultRows;
-		}
-
-		/**
-		 * Returns flat array of specific field
-		 */
-		public function fetchFlat($field) {
-			$rtnArray = [];
-			foreach($this->abraResultRows as $row) {
-				if(isset($row->$field)) $rtnArray[] = $row->$field;
-			}
-			return $rtnArray;
-		}
+	private int $fetchCount = 0;
 
 
+	/**
+	 * @param array<mixed> $headers
+	 *
+	 * @throws \AbraApi\Results\BadRequestException
+	 * @throws \AbraApi\Results\NoResponseException
+	 */
+	public function __construct(string $result, array $headers, int $httpCode)
+	{
+		$this->parseResult($result);
+		$this->parseHeaders($headers);
+		$this->setHttpCode($httpCode);
 	}
+
+
+    /**
+     * Returns one specific column from result
+     */
+    public function fetchField(string $field)
+    {
+        $row = $this->fetch();
+        if (isset($row->$field)) return $row->$field;
+
+        return NULL;
+    }
+
+
+    /**
+     * Fetches single row or returns null
+     */
+    public function fetch(): ?\stdClass
+    {
+        if (\count($this->abraResultRows) > $this->fetchCount) {
+            return $this->abraResultRows[$this->fetchCount++];
+        }
+
+        return NULL;
+    }
+
+
+    /**
+     * Get´s full response returned by API
+     */
+    public function fetchAll(): array
+    {
+        return $this->abraResultRows;
+    }
+
+
+    /**
+     * Returns flat array of specific field
+     */
+    public function fetchFlat(string $field): array
+    {
+        $rtnArray = [];
+        foreach ($this->abraResultRows as $row) {
+            if (isset($row->$field)) $rtnArray[] = $row->$field;
+        }
+
+        return $rtnArray;
+    }
+
+
+	private function parseResult(string $result): void
+	{
+		$this->content = $this->abraResultRows = \json_decode($result);
+	}
+
+}

@@ -5,7 +5,7 @@ Install wrapper using composer:
 
 ```composer require kaczmi/abragen-web-api-wrapper```
 
-PHP 7.0 or higher is required.
+PHP 7.4 or higher is required.
 
 Wrapper documentation with examples can be found here: https://lukas.krehula.net/abra-api/documentation/
 

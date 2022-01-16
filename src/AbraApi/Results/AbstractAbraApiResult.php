@@ -88,3 +88,8 @@ class BadRequestException extends \Exception
 {
 
 }
+
+class BadResultException extends \Exception
+{
+
+}

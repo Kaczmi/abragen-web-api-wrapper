@@ -4,3 +4,6 @@ run-tests:
 
 composer:
 	composer install
+
+phpstan:
+	.\vendor\bin\phpstan analyse --level 7 src

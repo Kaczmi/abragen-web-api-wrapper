@@ -27,6 +27,10 @@ final class AbraApiQrFunctionResult extends AbstractAbraApiResult implements Int
 
 	public function getResult()
 	{
+		if (!isset($this->content->result)) {
+			throw new BadResultException('QR Function did not return result.');
+		}
+
 		return $this->content->result;
 	}
 

@@ -2,6 +2,9 @@
 
 namespace AbraApi\Results;
 
+/**
+ * @property \stdClass $content
+ */
 final class AbraApiInsertResult extends AbstractAbraApiResult implements Interfaces\IInsertResult
 {
 
@@ -27,6 +30,10 @@ final class AbraApiInsertResult extends AbstractAbraApiResult implements Interfa
 
 	public function getInsertedId(): string
 	{
+		if (!isset($this->content->id)) {
+			throw new BadResultException('Insert query did not return ID');
+		}
+
 		return $this->content->id;
 	}
 

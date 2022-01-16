@@ -2,6 +2,9 @@
 
 namespace AbraApi\Results;
 
+/**
+ * @property \stdClass $content
+ */
 final class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfaces\IUpdateResult
 {
 
@@ -27,6 +30,10 @@ final class AbraApiUpdateResult extends AbstractAbraApiResult implements Interfa
 
 	public function getUpdatedId(): string
 	{
+		if (!isset($this->content->id)) {
+			throw new BadResultException('Update query did not return ID');
+		}
+
 		return $this->content->id;
 	}
 

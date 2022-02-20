@@ -23,7 +23,8 @@
     },
     "autoload": {
         "psr-4": {
-            "AbraApi\\": "src/AbraApi"
+            "AbraApi\\": "src/AbraApi",
+            "AbraApi\\DI\\": "src/DI"
         }
     }
 }

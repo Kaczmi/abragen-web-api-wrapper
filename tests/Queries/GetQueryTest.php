@@ -105,6 +105,7 @@ $body = $abraApi->get()
 		->where("name LIKE ? and code LIKE ?", "*test*", "*TEST*")
 		->limit(5)
 		->skip(10)
+		->orderBy(['id' => FALSE])
 		->getQuery();
 
 Assert::equal([
@@ -115,6 +116,12 @@ Assert::equal([
 	"where" => "name LIKE '*test*' and code LIKE '*TEST*'",
 	"take" => 5,
 	"skip" => 10,
+	"orderby" => [
+		[
+			'value' => 'id',
+			'desc' => FALSE,
+		],
+	],
 ], json_decode($body, true));
 
 $body = $abraApi->get()

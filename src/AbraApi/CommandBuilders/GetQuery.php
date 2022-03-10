@@ -111,7 +111,7 @@ class GetQuery extends Query implements Interfaces\IExpandQuery
 	 */
 	public function orderBy(...$orderBy): GetQuery
 	{
-		$this->queryServant->orderBy($orderBy);
+		$this->queryServant->orderBy(...$orderBy);
 		return $this;
 	}
 
